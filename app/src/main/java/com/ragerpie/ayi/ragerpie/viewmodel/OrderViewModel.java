@@ -4,6 +4,8 @@ import android.databinding.ObservableField;
 import android.view.View;
 
 import com.ragerpie.ayi.ragerpie.model.OrderBean;
+import com.ragerpie.ayi.ragerpie.util.LogUtils;
+import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
 
 import java.util.List;
 
@@ -22,18 +24,34 @@ public class OrderViewModel {
     private int indexOfDataList;
     private DataListener dataListener;
     private List<OrderBean> dataList;
+    OrderListAdapter adapter;
 
-    public OrderViewModel(int indexOfDataList, DataListener dataListener, List<OrderBean> dataList) {
+    public OrderViewModel(int indexOfDataList, OrderListAdapter adapter, List<OrderBean> dataList) {
         this.indexOfDataList = indexOfDataList;
-        this.dataListener = dataListener;
+        this.adapter = adapter;
         this.dataList = dataList;
     }
 
     public void onContainerClick(View view) {
-        dataList.get(indexOfDataList).setExpand(!dataList.get(indexOfDataList).isExpand());
-        if (dataListener != null) {
-            dataListener.onDataChanged();
+        int lastExpandIndex = adapter.getLastExpandIndex();
+        boolean isClickedItemExpanded = dataList.get(indexOfDataList).isExpand();
+        if (isClickedItemExpanded) {
+            //点的是打开的，关闭
+            dataList.get(indexOfDataList).setExpand(false);
+            adapter.setLastExpandIndex(-1);
+        } else {
+            //关闭上一个打开的
+            if (lastExpandIndex != -1) {
+                dataList.get(lastExpandIndex).setExpand(false);
+                adapter.notifyItemChanged(lastExpandIndex);
+                LogUtils.d("关闭上一个打开的:" + lastExpandIndex);
+            }
+            //打开当前点击的
+            dataList.get(indexOfDataList).setExpand(true);
+            adapter.setLastExpandIndex(indexOfDataList);
         }
+        adapter.notifyItemChanged(indexOfDataList);
+
     }
 
     public void onInvalidOrder(View view) {
@@ -45,6 +63,6 @@ public class OrderViewModel {
     }
 
     public interface DataListener {
-        void onDataChanged();
+        void onDataChanged(int index);
     }
 }

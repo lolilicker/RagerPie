@@ -23,6 +23,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<BindingHolder> {
     private static final int TYPE_OPEN_FINISH = 2;
 
     private List<OrderBean> dataList;
+    //上一个展开的item
+    private int lastExpandIndex = -1;
 
     public OrderListAdapter(List<OrderBean> dataList) {
         this.dataList = dataList;
@@ -40,13 +42,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<BindingHolder> {
     @Override
     public void onBindViewHolder(BindingHolder holder, final int position) {
         OrderBean orderBean = dataList.get(position);
-        OrderViewModel orderViewModel = new OrderViewModel(position,
-                new OrderViewModel.DataListener() {
-                    @Override
-                    public void onDataChanged() {
-                        OrderListAdapter.this.notifyItemChanged(position);
-                    }
-                }, dataList);
+        OrderViewModel orderViewModel = new OrderViewModel(position, this, dataList);
         holder.getBinding().setVariable(BR.order, orderViewModel);
         holder.getBinding().executePendingBindings();
     }
@@ -59,5 +55,13 @@ public class OrderListAdapter extends RecyclerView.Adapter<BindingHolder> {
     @Override
     public int getItemViewType(int position) {
         return dataList.get(position).isExpand() ? 1 : 0;
+    }
+
+    public int getLastExpandIndex() {
+        return lastExpandIndex;
+    }
+
+    public void setLastExpandIndex(int lastExpandIndex) {
+        this.lastExpandIndex = lastExpandIndex;
     }
 }
