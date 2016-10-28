@@ -24,7 +24,7 @@ public class OrderViewModel {
     private int indexOfDataList;
     private DataListener dataListener;
     private List<OrderBean> dataList;
-    OrderListAdapter adapter;
+    private OrderListAdapter adapter;
 
     public OrderViewModel(int indexOfDataList, OrderListAdapter adapter, List<OrderBean> dataList) {
         this.indexOfDataList = indexOfDataList;

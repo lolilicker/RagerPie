@@ -8,6 +8,7 @@ import com.ragerpie.ayi.ragerpie.R;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderFragmentPagerAdapter;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
@@ -43,4 +44,9 @@ public class MainActivity extends BaseActivity {
         return R.layout.activity_main;
     }
 
+
+    @OnClick(R.id.iv_refresh)
+    public void onClick() {
+        showToast("刷新");
+    }
 }

@@ -10,11 +10,24 @@ public class OrderBean {
      */
     private boolean expand;
 
+    /**
+     * 测试
+     */
+    private String date;
+
     public boolean isExpand() {
         return expand;
     }
 
     public void setExpand(boolean expand) {
         this.expand = expand;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

@@ -1,11 +1,8 @@
 package com.ragerpie.ayi.ragerpie.view.fragment;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -18,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by WangBo on 2016/10/28.
@@ -51,6 +47,7 @@ public class TodayFragment extends BaseFragment {
         List<OrderBean> orderBeanList = gson.fromJson(json, new TypeToken<List<OrderBean>>() {
         }.getType());
         dataList.addAll(orderBeanList);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

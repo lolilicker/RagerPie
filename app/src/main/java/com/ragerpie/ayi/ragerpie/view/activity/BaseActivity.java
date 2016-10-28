@@ -2,6 +2,7 @@ package com.ragerpie.ayi.ragerpie.view.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 
@@ -10,9 +11,12 @@ import butterknife.ButterKnife;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
+    private Toast toast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
         initVariable();
         setContentView(getLayoutResId());
         ButterKnife.bind(this);
@@ -27,4 +31,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void loadData();
 
     protected abstract int getLayoutResId();
+
+    protected void showToast(String message) {
+        toast.setText(message);
+        toast.show();
+    }
 }
