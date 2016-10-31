@@ -21,7 +21,8 @@ import java.util.List;
 
 public class TitleItemDecoration extends RecyclerView.ItemDecoration {
     private static final int TITLE_HEIGHT = DpAndPx.convertDpToPixel(20);
-    private static final int TEXT_SIZE = DpAndPx.sp2px(16);
+    private static final int TEXT_SIZE = DpAndPx.sp2px(12);
+    private static final int LEFT_PADDING = DpAndPx.convertDpToPixel(10);
     private static int COLOR_TITLE_FONT;
     private static int COLOR_TITLE_BG;
     private Paint paint;
@@ -62,8 +63,8 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
                     paint.setColor(COLOR_TITLE_FONT);
                     paint.getTextBounds(orderBean.getDate(), 0, orderBean.getDate().length(), textBound);
                     c.drawText(orderBean.getDate(),
-                            child.getPaddingLeft(),
-                            child.getTop() - topMargin - TITLE_HEIGHT / 2 - textBound.height() / 2,
+                            child.getPaddingLeft() + LEFT_PADDING,
+                            child.getTop() - topMargin - textBound.height() / 2,
                             paint);
                 }
             }
@@ -81,8 +82,8 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
                 parent.getPaddingTop() + TITLE_HEIGHT, paint);
         paint.setColor(COLOR_TITLE_FONT);
         paint.getTextBounds(orderBean.getDate(), 0, orderBean.getDate().length(), textBound);
-        c.drawText(orderBean.getDate(), parent.getPaddingLeft(),
-                parent.getTop() + parent.getPaddingTop() + TITLE_HEIGHT / 2 - textBound.height() / 2, paint);
+        c.drawText(orderBean.getDate(), parent.getPaddingLeft()+LEFT_PADDING,
+                parent.getTop() + parent.getPaddingTop() + TITLE_HEIGHT - textBound.height() / 2, paint);
     }
 
     @Override
