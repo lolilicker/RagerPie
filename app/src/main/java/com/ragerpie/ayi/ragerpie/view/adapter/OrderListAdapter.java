@@ -41,6 +41,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<BindingHolder> {
 
     @Override
     public void onBindViewHolder(BindingHolder holder, final int position) {
+        LogUtils.d("onBindViewHolder " + position);
         OrderBean orderBean = dataList.get(position);
         OrderViewModel orderViewModel = new OrderViewModel(position, this, dataList);
         holder.getBinding().setVariable(BR.order, orderViewModel);

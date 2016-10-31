@@ -10,6 +10,7 @@ import com.ragerpie.ayi.ragerpie.R;
 import com.ragerpie.ayi.ragerpie.mock.MockOrderData;
 import com.ragerpie.ayi.ragerpie.model.OrderBean;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
+import com.ragerpie.ayi.ragerpie.view.widget.TitleItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public class HistoryFragment extends BaseFragment {
     protected void initView(View view) {
         rcvHistory.setLayoutManager(new LinearLayoutManager(getContext()));
         rcvHistory.setAdapter(adapter);
+        rcvHistory.addItemDecoration(new TitleItemDecoration(dataList, getContext()));
     }
 
     @Override
