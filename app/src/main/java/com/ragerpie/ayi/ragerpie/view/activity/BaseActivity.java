@@ -32,8 +32,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract int getLayoutResId();
 
-    protected void showToast(String message) {
-        toast.setText(message);
-        toast.show();
+    public void showToast(String message) {
+        if (message != null){
+            toast.setText(message);
+            toast.show();
+        }
+
     }
 }

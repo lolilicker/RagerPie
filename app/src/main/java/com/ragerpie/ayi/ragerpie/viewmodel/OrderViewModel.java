@@ -3,7 +3,7 @@ package com.ragerpie.ayi.ragerpie.viewmodel;
 import android.databinding.ObservableField;
 import android.view.View;
 
-import com.ragerpie.ayi.ragerpie.model.OrderBean;
+import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 import com.ragerpie.ayi.ragerpie.util.LogUtils;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
 

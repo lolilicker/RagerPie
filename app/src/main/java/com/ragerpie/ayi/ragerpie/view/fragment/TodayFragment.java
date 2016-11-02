@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ragerpie.ayi.ragerpie.R;
 import com.ragerpie.ayi.ragerpie.mock.MockOrderData;
-import com.ragerpie.ayi.ragerpie.model.OrderBean;
+import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
 
 import java.util.ArrayList;

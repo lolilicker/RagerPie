@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.ragerpie.ayi.ragerpie.BR;
 import com.ragerpie.ayi.ragerpie.R;
-import com.ragerpie.ayi.ragerpie.model.OrderBean;
+import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 import com.ragerpie.ayi.ragerpie.util.LogUtils;
 import com.ragerpie.ayi.ragerpie.viewmodel.OrderViewModel;
 

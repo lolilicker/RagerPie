@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ragerpie.ayi.ragerpie.view.activity.BaseActivity;
+
 import butterknife.ButterKnife;
 
 /**
@@ -14,6 +16,7 @@ import butterknife.ButterKnife;
  */
 
 public abstract class BaseFragment extends Fragment {
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         initVariable();
@@ -44,5 +47,10 @@ public abstract class BaseFragment extends Fragment {
     protected abstract int getLayoutResId();
 
     public abstract String getTitle();
+
+    protected void showToast(String message) {
+        BaseActivity activity = (BaseActivity) getActivity();
+        activity.showToast(message);
+    }
 
 }

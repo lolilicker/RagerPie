@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ragerpie.ayi.ragerpie.R;
-import com.ragerpie.ayi.ragerpie.model.OrderBean;
+import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 import com.ragerpie.ayi.ragerpie.util.DpAndPx;
 import com.ragerpie.ayi.ragerpie.util.LogUtils;
 
@@ -52,7 +52,7 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
             OrderBean orderBean = dataList.get(position);
             if (position > -1) {
                 if (position == 0
-                        || !orderBean.getDate().equals(dataList.get(position - 1).getDate())) {
+                        || !orderBean.getDateStr().equals(dataList.get(position - 1).getDateStr())) {
                     LogUtils.d("onDraw " + position);
                     paint.setColor(COLOR_TITLE_BG);
                     c.drawRect(left,
@@ -61,8 +61,8 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
                             child.getTop() - topMargin,
                             paint);
                     paint.setColor(COLOR_TITLE_FONT);
-                    paint.getTextBounds(orderBean.getDate(), 0, orderBean.getDate().length(), textBound);
-                    c.drawText(orderBean.getDate(),
+                    paint.getTextBounds(orderBean.getDateStr(), 0, orderBean.getDateStr().length(), textBound);
+                    c.drawText(orderBean.getDateStr(),
                             child.getPaddingLeft() + LEFT_PADDING,
                             child.getTop() - topMargin - textBound.height() / 2,
                             paint);
@@ -76,14 +76,17 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
         int position = ((LinearLayoutManager) parent.getLayoutManager()).findFirstVisibleItemPosition();
-        OrderBean orderBean = dataList.get(position);
-        paint.setColor(COLOR_TITLE_BG);
-        c.drawRect(parent.getPaddingLeft(), parent.getPaddingTop(), parent.getWidth() - parent.getPaddingRight(),
-                parent.getPaddingTop() + TITLE_HEIGHT, paint);
-        paint.setColor(COLOR_TITLE_FONT);
-        paint.getTextBounds(orderBean.getDate(), 0, orderBean.getDate().length(), textBound);
-        c.drawText(orderBean.getDate(), parent.getPaddingLeft()+LEFT_PADDING,
-                parent.getTop() + parent.getPaddingTop() + TITLE_HEIGHT - textBound.height() / 2, paint);
+        if (position > -1){
+            OrderBean orderBean = dataList.get(position);
+            paint.setColor(COLOR_TITLE_BG);
+            c.drawRect(parent.getPaddingLeft(), parent.getPaddingTop(), parent.getWidth() - parent.getPaddingRight(),
+                    parent.getPaddingTop() + TITLE_HEIGHT, paint);
+            paint.setColor(COLOR_TITLE_FONT);
+            paint.getTextBounds(orderBean.getDateStr(), 0, orderBean.getDateStr().length(), textBound);
+            c.drawText(orderBean.getDateStr(), parent.getPaddingLeft()+LEFT_PADDING,
+                    parent.getTop() + parent.getPaddingTop() + TITLE_HEIGHT - textBound.height() / 2, paint);
+        }
+
     }
 
     @Override
@@ -92,7 +95,7 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
         final int position = ((RecyclerView.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
         OrderBean orderBean = dataList.get(position);
         if (position > -1) {
-            if (position == 0 || !orderBean.getDate().equals(dataList.get(position - 1).getDate())) {
+            if (position == 0 || !orderBean.getDateStr().equals(dataList.get(position - 1).getDateStr())) {
                 outRect.set(0, TITLE_HEIGHT, 0, 0);
             } else {
                 outRect.set(0, 0, 0, 0);
