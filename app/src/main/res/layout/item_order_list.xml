@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
+        <import type="android.databinding.ObservableField" />
+
+        <import type="android.databinding.ObservableList" />
+
         <variable
             name="order"
             type="com.ragerpie.ayi.ragerpie.viewmodel.OrderViewModel" />
@@ -9,15 +15,49 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:onClick="@{order.onContainerClick}">
+        android:onClick="@{order.onContainerClick}"
+        android:padding="15dp">
 
         <ImageView
+            android:id="@+id/v_head_order_list"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
             android:background="@color/colorPrimary" />
 
+        <TextView
+            android:id="@+id/tv_name_order_list"
+            style="@style/OrderListTvBig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/tv_time_order_list"
+            android:layout_toRightOf="@id/v_head_order_list"
+            android:ellipsize="end"
+            android:text="@{order.realName}"
+            android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/tv_time_order_list"
+            style="@style/OrderListTvNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="15dp"
+            android:text="@{order.time}" />
+
+        <TextView
+            android:id="@+id/tv_msg_order_list"
+            style="@style/OrderListTvNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_name_order_list"
+            android:layout_below="@+id/tv_name_order_list"
+            android:layout_marginTop="15sp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{order.message}"
+            android:textSize="14sp" />
     </RelativeLayout>
 </layout>

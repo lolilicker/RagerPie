@@ -49,8 +49,7 @@ public class HistoryFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
-        //TODO 获取数据
-        orderModel.getOrders(new RagerSubscriber<Response<ResponseWrapper<List<OrderBean>>>>() {
+        orderModel.getOrdersByDate(new RagerSubscriber<Response<ResponseWrapper<List<OrderBean>>>>() {
             @Override
             public void onNext(Response<ResponseWrapper<List<OrderBean>>> response) {
                 super.onNext(response);

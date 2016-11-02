@@ -15,5 +15,8 @@ import rx.Observable;
 
 public interface OrderApis {
     @GET("db")
-    Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderList();
+    Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByDate();
+
+    @GET("db")
+    Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByLastId();
 }

@@ -1,5 +1,6 @@
 package com.ragerpie.ayi.ragerpie.view.adapter;
 
+import android.databinding.ObservableFloat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<BindingHolder> {
 
     @Override
     public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        int resId = viewType == 0 ? R.layout.item_order_list : R.layout.item_order_detail;
+        int resId = viewType == TYPE_CLOSE ? R.layout.item_order_list : R.layout.item_order_detail;
         View viewDataBinding = LayoutInflater.from(parent.getContext())
                 .inflate(resId, parent, false);
         LogUtils.d("onCreateViewHolder" + viewType);
@@ -44,6 +45,18 @@ public class OrderListAdapter extends RecyclerView.Adapter<BindingHolder> {
         LogUtils.d("onBindViewHolder " + position);
         OrderBean orderBean = dataList.get(position);
         OrderViewModel orderViewModel = new OrderViewModel(position, this, dataList);
+//        ObservableList<GoodsBean> goodsList = new ObservableArrayList<>();
+//        goodsList.addAll(orderBean.getGoods());
+        orderViewModel.fillData(
+                orderBean.getRealName(),
+                orderBean.getPhone(),
+                orderBean.getWechatId(),
+                orderBean.getCreateTime().split(" ")[1],
+                orderBean.getAddress(),
+                orderBean.getSendMessage(),
+                orderBean.getRemarks(),
+                orderBean.getTotalPrice(),
+                orderBean.getGoods());
         holder.getBinding().setVariable(BR.order, orderViewModel);
         holder.getBinding().executePendingBindings();
     }
@@ -55,7 +68,16 @@ public class OrderListAdapter extends RecyclerView.Adapter<BindingHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return dataList.get(position).isExpand() ? 1 : 0;
+        OrderBean orderBean = dataList.get(position);
+        if (!orderBean.isExpand()) {
+            return TYPE_CLOSE;
+        } else {
+            if (orderBean.getStatus() == OrderBean.STATE_FINISH) {
+                return TYPE_OPEN_FINISH;
+            } else {
+                return TYPE_OPEN_UNFINISH;
+            }
+        }
     }
 
     public int getLastExpandIndex() {

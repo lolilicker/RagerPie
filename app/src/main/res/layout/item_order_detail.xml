@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <variable
             name="order"
             type="com.ragerpie.ayi.ragerpie.viewmodel.OrderViewModel" />
@@ -9,15 +11,91 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:onClick="@{order.onContainerClick}">
+        android:onClick="@{order.onContainerClick}"
+        android:padding="15dp">
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:background="@color/colorAccent" />
+        <!--昵称-->
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/OrderListTvBig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/tv_time"
+            android:text="@{order.realName}" />
 
+        <!--时间-->
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/OrderListTvNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@{order.time}" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_name"
+            android:orientation="vertical">
+
+            <!--电话-->
+            <TextView
+                style="@style/OrderListTvNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{order.phoneStr}" />
+
+            <!--微信-->
+            <TextView
+                style="@style/OrderListTvNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{order.weichatStr}" />
+
+            <!--合计-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/OrderListTvNormal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="合计：" />
+
+                <TextView
+                    style="@style/OrderListTvNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{order.totalPriceStr}"
+                    android:textColor="@color/colorPrimary" />
+            </LinearLayout>
+
+            <!--地址-->
+            <TextView
+                style="@style/OrderListTvNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{order.addrStr}" />
+
+            <!--送货时间-->
+            <TextView
+                style="@style/OrderListTvNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{order.sendMessageStr}" />
+
+            <!--备注-->
+            <TextView
+                android:id="@+id/tv_phone"
+                style="@style/OrderListTvNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{order.remarkStr}" />
+        </LinearLayout>
     </RelativeLayout>
 </layout>

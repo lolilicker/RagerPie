@@ -7,6 +7,8 @@ import java.util.List;
  */
 
 public class OrderBean {
+    public static final int STATE_UNFINISH = 0;
+    public static final int STATE_FINISH = 1;
     /**
      * id : 52
      * wechatId : 100
@@ -21,7 +23,7 @@ public class OrderBean {
      */
 
     private int id;
-    private int wechatId;
+    private String wechatId;
     private String createTime;
     private String updateTime;
     private int status;
@@ -29,6 +31,8 @@ public class OrderBean {
     private String phone;
     private String address;
     private String realName;
+    private String sendMessage;
+    private float totalPrice;
     /**
      * id : 21
      * goodsId : 1
@@ -47,11 +51,11 @@ public class OrderBean {
         this.id = id;
     }
 
-    public int getWechatId() {
+    public String getWechatId() {
         return wechatId;
     }
 
-    public void setWechatId(int wechatId) {
+    public void setWechatId(String wechatId) {
         this.wechatId = wechatId;
     }
 
@@ -119,52 +123,20 @@ public class OrderBean {
         this.goods = goods;
     }
 
-    public static class GoodsBean {
-        private int id;
-        private int goodsId;
-        private String goodsName;
-        private String goodsSize;
-        private String goodsNumber;
+    public String getSendMessage() {
+        return sendMessage;
+    }
 
-        public int getId() {
-            return id;
-        }
+    public void setSendMessage(String sendMessage) {
+        this.sendMessage = sendMessage;
+    }
 
-        public void setId(int id) {
-            this.id = id;
-        }
+    public float getTotalPrice() {
+        return totalPrice;
+    }
 
-        public int getGoodsId() {
-            return goodsId;
-        }
-
-        public void setGoodsId(int goodsId) {
-            this.goodsId = goodsId;
-        }
-
-        public String getGoodsName() {
-            return goodsName;
-        }
-
-        public void setGoodsName(String goodsName) {
-            this.goodsName = goodsName;
-        }
-
-        public String getGoodsSize() {
-            return goodsSize;
-        }
-
-        public void setGoodsSize(String goodsSize) {
-            this.goodsSize = goodsSize;
-        }
-
-        public String getGoodsNumber() {
-            return goodsNumber;
-        }
-
-        public void setGoodsNumber(String goodsNumber) {
-            this.goodsNumber = goodsNumber;
-        }
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     /**
