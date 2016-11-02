@@ -15,5 +15,7 @@ import rx.Subscriber;
 public interface IOrderModel {
     void getOrdersByDate(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
 
-    void getOrdersByLastId( Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
+    void getOrdersByLastId(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
+
+    void getUnFinishedOrderList(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
 }

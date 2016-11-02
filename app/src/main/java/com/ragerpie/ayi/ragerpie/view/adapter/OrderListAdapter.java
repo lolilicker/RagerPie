@@ -1,6 +1,6 @@
 package com.ragerpie.ayi.ragerpie.view.adapter;
 
-import android.databinding.ObservableFloat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,8 +45,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<BindingHolder> {
         LogUtils.d("onBindViewHolder " + position);
         OrderBean orderBean = dataList.get(position);
         OrderViewModel orderViewModel = new OrderViewModel(position, this, dataList);
-//        ObservableList<GoodsBean> goodsList = new ObservableArrayList<>();
-//        goodsList.addAll(orderBean.getGoods());
+
         orderViewModel.fillData(
                 orderBean.getRealName(),
                 orderBean.getPhone(),
@@ -57,6 +56,12 @@ public class OrderListAdapter extends RecyclerView.Adapter<BindingHolder> {
                 orderBean.getRemarks(),
                 orderBean.getTotalPrice(),
                 orderBean.getGoods());
+
+        if (getItemViewType(position) != TYPE_CLOSE) {
+            //打开的话展示订单内容
+            holder.recyclerView.setAdapter(new OrderGoodsAdapter(orderBean.getGoods()));
+            holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+        }
         holder.getBinding().setVariable(BR.order, orderViewModel);
         holder.getBinding().executePendingBindings();
     }

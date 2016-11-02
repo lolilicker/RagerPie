@@ -19,4 +19,7 @@ public interface OrderApis {
 
     @GET("db")
     Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByLastId();
+
+    @GET("db")
+    Observable<Response<ResponseWrapper<List<OrderBean>>>> getUnFinishedOrderList();
 }

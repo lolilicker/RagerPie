@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="goods"
+            type="com.ragerpie.ayi.ragerpie.viewmodel.GoodViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/OrderListTvNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:lines="1"
+            android:text="@{goods.goodsName}" />
+
+        <TextView
+            style="@style/OrderListTvNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:lines="1"
+            android:layout_marginRight="10dp"
+            android:text="@{goods.goodsCountStr}" />
+
+        <TextView
+            style="@style/OrderListTvNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="@{goods.goodsPriceStr}" />
+    </LinearLayout>
+</layout>
