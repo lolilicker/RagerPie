@@ -4,16 +4,27 @@ import android.view.View;
 
 import com.ragerpie.ayi.ragerpie.model.beans.GoodsBean;
 import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
+import com.ragerpie.ayi.ragerpie.model.beans.ResponseWrapper;
+import com.ragerpie.ayi.ragerpie.model.impls.OrderModel;
+import com.ragerpie.ayi.ragerpie.model.interfaces.IOrderModel;
+import com.ragerpie.ayi.ragerpie.net.RagerSubscriber;
 import com.ragerpie.ayi.ragerpie.util.LogUtils;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
 
 import java.util.List;
+
+import retrofit2.Response;
 
 /**
  * Created by WangBo on 2016/10/28.
  */
 
 public class OrderViewModel {
+    private IOrderModel orderModel;
+
+    /**
+     * xml用到的字段
+     */
     private String realName;
     private String phone;
     private String wechatId;
@@ -23,18 +34,27 @@ public class OrderViewModel {
     private String remarks;
     private Float totalPrice;
     private String message;
+    private int status;
     private List<GoodsBean> goodList;
+
+
     private int indexOfDataList;
     private List<OrderBean> dataList;
     private OrderListAdapter adapter;
+
+
 
     public OrderViewModel(int indexOfDataList, OrderListAdapter adapter, List<OrderBean> dataList) {
         this.indexOfDataList = indexOfDataList;
         this.adapter = adapter;
         this.dataList = dataList;
+        orderModel = new OrderModel();
     }
 
-    public void fillData(String realName, String phone, String wechatId, String time, String address, String sendMessage, String remarks, Float totalPrice, List<GoodsBean> goodList) {
+    public void fillData(String realName, String phone, String wechatId, String time,
+                         String address, String sendMessage, String remarks,
+                         Float totalPrice,
+                         int status, List<GoodsBean> goodList) {
         this.realName = realName;
         this.phone = phone;
         this.wechatId = wechatId;
@@ -44,6 +64,7 @@ public class OrderViewModel {
         this.remarks = remarks;
         this.goodList = goodList;
         this.totalPrice = totalPrice;
+        this.status = status;
         message = "￥" + totalPrice + " | " + remarks;
     }
 
@@ -81,6 +102,14 @@ public class OrderViewModel {
 
     public String getMessage() {
         return message;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getPhoneStr() {
@@ -130,11 +159,19 @@ public class OrderViewModel {
     }
 
     public void onInvalidOrder(View view) {
+        this.status = OrderBean.STATE_NOUSED;
+        orderModel.invalidOrder(String.valueOf(dataList.get(indexOfDataList).getId()),
+                new RagerSubscriber<Response<ResponseWrapper>>() {
 
+                });
     }
 
     public void onFinishOrder(View view) {
+        this.status = OrderBean.STATE_DEAL;
+        orderModel.invalidOrder(String.valueOf(dataList.get(indexOfDataList).getId()),
+                new RagerSubscriber<Response<ResponseWrapper>>() {
 
+                });
     }
 
 }

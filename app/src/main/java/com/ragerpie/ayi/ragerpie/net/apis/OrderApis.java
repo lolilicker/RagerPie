@@ -7,6 +7,7 @@ import java.util.List;
 
 import retrofit2.Response;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import rx.Observable;
 
 /**
@@ -22,4 +23,5 @@ public interface OrderApis {
 
     @GET("db")
     Observable<Response<ResponseWrapper<List<OrderBean>>>> getUnFinishedOrderList();
+
 }

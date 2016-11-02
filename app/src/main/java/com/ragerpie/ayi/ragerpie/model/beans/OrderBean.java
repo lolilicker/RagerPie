@@ -7,8 +7,16 @@ import java.util.List;
  */
 
 public class OrderBean {
-    public static final int STATE_UNFINISH = 0;
-    public static final int STATE_FINISH = 1;
+    //新增订单
+    public static final int STATE_CREATE = 0;
+    //已发送订单
+    public static final int STATE_SENT = 1;
+    //已处理订单(完成)
+    public static final int STATE_DEAL = 2;
+    //删除订单
+    public static final int STATE_DELETE = 3;
+    //无效订单
+    public static final int STATE_NOUSED = 4;
     /**
      * id : 52
      * wechatId : 100

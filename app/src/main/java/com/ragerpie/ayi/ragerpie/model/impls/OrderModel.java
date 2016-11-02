@@ -49,4 +49,14 @@ public class OrderModel implements IOrderModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
+    @Override
+    public void invalidOrder(String orderId, Subscriber<Response<ResponseWrapper>> subscriber) {
+
+    }
+
+    @Override
+    public void finishOrder(String orderId, Subscriber<Response<ResponseWrapper>> subscriber) {
+
+    }
 }
