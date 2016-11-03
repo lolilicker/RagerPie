@@ -55,6 +55,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<BindingHolder> {
                 orderBean.getSendMessage(),
                 orderBean.getRemarks(),
                 orderBean.getTotalPrice(),
+                orderBean.getStatus(),
                 orderBean.getGoods());
 
         if (getItemViewType(position) != TYPE_CLOSE) {
@@ -77,7 +78,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<BindingHolder> {
         if (!orderBean.isExpand()) {
             return TYPE_CLOSE;
         } else {
-            if (orderBean.getStatus() == OrderBean.STATE_FINISH) {
+            if (orderBean.getStatus() == OrderBean.STATE_DEAL) {
                 return TYPE_OPEN_FINISH;
             } else {
                 return TYPE_OPEN_UNFINISH;

@@ -1,5 +1,7 @@
 package com.ragerpie.ayi.ragerpie.viewmodel;
 
+import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.view.View;
 
 import com.ragerpie.ayi.ragerpie.model.beans.GoodsBean;
@@ -37,11 +39,13 @@ public class OrderViewModel {
     private int status;
     private List<GoodsBean> goodList;
 
+    private ObservableInt controlLlVisibility;
+    private ObservableInt stateTvVisibility;
+    private ObservableField<String> statusStr;
 
     private int indexOfDataList;
     private List<OrderBean> dataList;
     private OrderListAdapter adapter;
-
 
 
     public OrderViewModel(int indexOfDataList, OrderListAdapter adapter, List<OrderBean> dataList) {
@@ -49,6 +53,9 @@ public class OrderViewModel {
         this.adapter = adapter;
         this.dataList = dataList;
         orderModel = new OrderModel();
+        controlLlVisibility = new ObservableInt();
+        stateTvVisibility = new ObservableInt();
+        statusStr = new ObservableField<>();
     }
 
     public void fillData(String realName, String phone, String wechatId, String time,
@@ -66,6 +73,7 @@ public class OrderViewModel {
         this.totalPrice = totalPrice;
         this.status = status;
         message = "￥" + totalPrice + " | " + remarks;
+        updateStat(status);
     }
 
     public String getRealName() {
@@ -136,6 +144,35 @@ public class OrderViewModel {
         return totalPrice + "元";
     }
 
+    public ObservableInt getControlLlVisibility() {
+        return controlLlVisibility;
+    }
+
+    public ObservableInt getStateTvVisibility() {
+        return stateTvVisibility;
+    }
+
+    public ObservableField<String> getStatusStr(){
+        return statusStr;
+    }
+
+    private String resolveStatusStr() {
+        switch (status) {
+            case OrderBean.STATE_CREATE:
+                return "新增订单";
+            case OrderBean.STATE_SENT:
+                return "已发送订单";
+            case OrderBean.STATE_DEAL:
+                return "已处理订单(完成)";
+            case OrderBean.STATE_DELETE:
+                return "删除订单";
+            case OrderBean.STATE_NOUSED:
+                return "无效订单";
+            default:
+                return "未知状态";
+        }
+    }
+
     public void onContainerClick(View view) {
         int lastExpandIndex = adapter.getLastExpandIndex();
         boolean isClickedItemExpanded = dataList.get(indexOfDataList).isExpand();
@@ -159,7 +196,7 @@ public class OrderViewModel {
     }
 
     public void onInvalidOrder(View view) {
-        this.status = OrderBean.STATE_NOUSED;
+        updateStat(OrderBean.STATE_NOUSED);
         orderModel.invalidOrder(String.valueOf(dataList.get(indexOfDataList).getId()),
                 new RagerSubscriber<Response<ResponseWrapper>>() {
 
@@ -167,11 +204,29 @@ public class OrderViewModel {
     }
 
     public void onFinishOrder(View view) {
-        this.status = OrderBean.STATE_DEAL;
+        updateStat(OrderBean.STATE_DEAL);
         orderModel.invalidOrder(String.valueOf(dataList.get(indexOfDataList).getId()),
                 new RagerSubscriber<Response<ResponseWrapper>>() {
 
                 });
+    }
+
+    private void updateStat(int status) {
+        this.status = status;
+        switch (status) {
+            case OrderBean.STATE_CREATE:
+            case OrderBean.STATE_SENT:
+                controlLlVisibility.set(View.VISIBLE);
+                stateTvVisibility.set(View.GONE);
+                break;
+            case OrderBean.STATE_NOUSED:
+            case OrderBean.STATE_DEAL:
+            case OrderBean.STATE_DELETE:
+                controlLlVisibility.set(View.GONE);
+                stateTvVisibility.set(View.VISIBLE);
+                break;
+        }
+        statusStr.set(resolveStatusStr());
     }
 
 }

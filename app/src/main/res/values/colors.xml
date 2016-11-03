@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="titleDecorationFont">#FFFFFF</color>
     <color name="titleDecorationBG">#3F51B5</color>
+    <color name="splitLine">#FFEAEAEA</color>
+    <color name="white">#FFFFFF</color>
 </resources>
