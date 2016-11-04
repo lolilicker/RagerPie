@@ -1,9 +1,11 @@
 package com.ragerpie.ayi.ragerpie.viewmodel;
 
+import android.content.Context;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.view.View;
 
+import com.ragerpie.ayi.ragerpie.R;
 import com.ragerpie.ayi.ragerpie.model.beans.GoodsBean;
 import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 import com.ragerpie.ayi.ragerpie.model.beans.ResponseWrapper;
@@ -23,6 +25,7 @@ import retrofit2.Response;
 
 public class OrderViewModel {
     private IOrderModel orderModel;
+    private Context context;
 
     /**
      * xml用到的字段
@@ -43,12 +46,18 @@ public class OrderViewModel {
     private ObservableInt stateTvVisibility;
     private ObservableField<String> statusStr;
 
+    //头像
+    private ObservableField<String> headStr;
+    private ObservableInt headBg;
+    private ObservableInt headStrColor;
+
     private int indexOfDataList;
     private List<OrderBean> dataList;
     private OrderListAdapter adapter;
 
 
-    public OrderViewModel(int indexOfDataList, OrderListAdapter adapter, List<OrderBean> dataList) {
+    public OrderViewModel(Context context, int indexOfDataList, OrderListAdapter adapter, List<OrderBean> dataList) {
+        this.context = context;
         this.indexOfDataList = indexOfDataList;
         this.adapter = adapter;
         this.dataList = dataList;
@@ -56,6 +65,9 @@ public class OrderViewModel {
         controlLlVisibility = new ObservableInt();
         stateTvVisibility = new ObservableInt();
         statusStr = new ObservableField<>();
+        headStr = new ObservableField<>();
+        headBg = new ObservableInt();
+        headStrColor = new ObservableInt();
     }
 
     public void fillData(String realName, String phone, String wechatId, String time,
@@ -152,25 +164,20 @@ public class OrderViewModel {
         return stateTvVisibility;
     }
 
-    public ObservableField<String> getStatusStr(){
+    public ObservableField<String> getStatusStr() {
         return statusStr;
     }
 
-    private String resolveStatusStr() {
-        switch (status) {
-            case OrderBean.STATE_CREATE:
-                return "新增订单";
-            case OrderBean.STATE_SENT:
-                return "已发送订单";
-            case OrderBean.STATE_DEAL:
-                return "已处理订单(完成)";
-            case OrderBean.STATE_DELETE:
-                return "删除订单";
-            case OrderBean.STATE_NOUSED:
-                return "无效订单";
-            default:
-                return "未知状态";
-        }
+    public ObservableField<String> getHeadStr() {
+        return headStr;
+    }
+
+    public ObservableInt getHeadBg() {
+        return headBg;
+    }
+
+    public ObservableInt getHeadStrColor() {
+        return headStrColor;
     }
 
     public void onContainerClick(View view) {
@@ -211,9 +218,21 @@ public class OrderViewModel {
                 });
     }
 
-    private void updateStat(int status) {
-        this.status = status;
-        switch (status) {
+    private void updateStat(int stat) {
+        this.status = stat;
+        //底部操作按钮可见性
+        updateBottomStatePanelVisibility(stat);
+        //底部订单状态
+        statusStr.set(resolveStatusStr(stat));
+        //左侧头像
+        updateHeadStr(stat);
+    }
+
+    /**
+     * 底部订单操作按钮可见性
+     */
+    private void updateBottomStatePanelVisibility(int stat) {
+        switch (stat) {
             case OrderBean.STATE_CREATE:
             case OrderBean.STATE_SENT:
                 controlLlVisibility.set(View.VISIBLE);
@@ -226,7 +245,53 @@ public class OrderViewModel {
                 stateTvVisibility.set(View.VISIBLE);
                 break;
         }
-        statusStr.set(resolveStatusStr());
     }
 
+    /**
+     * 底部订单状态说明
+     */
+    private String resolveStatusStr(int stat) {
+        switch (stat) {
+            case OrderBean.STATE_CREATE:
+                return "新增订单";
+            case OrderBean.STATE_SENT:
+                return "已发送订单";
+            case OrderBean.STATE_DEAL:
+                return "已处理订单(完成)";
+            case OrderBean.STATE_DELETE:
+                return "删除订单";
+            case OrderBean.STATE_NOUSED:
+                return "无效订单";
+            default:
+                return "未知状态";
+        }
+    }
+
+    /**
+     * 左侧头像文字
+     */
+    private void updateHeadStr(int stat) {
+        switch (stat) {
+            case OrderBean.STATE_CREATE:
+            case OrderBean.STATE_SENT:
+                String nameChar = (realName == null || realName.length() == 0)
+                        ? "?"
+                        : String.valueOf(realName.charAt(realName.length() - 1));
+                headStr.set(nameChar);
+                headBg.set(context.getResources().getColor(R.color.colorPrimary));
+                headStrColor.set(context.getResources().getColor(R.color.white));
+                break;
+            case OrderBean.STATE_DEAL:
+                headStr.set("OK");
+                headBg.set(context.getResources().getColor(R.color.green));
+                headStrColor.set(context.getResources().getColor(R.color.white));
+                break;
+            case OrderBean.STATE_DELETE:
+            case OrderBean.STATE_NOUSED:
+                headStr.set("DEL");
+                headBg.set(context.getResources().getColor(R.color.gray));
+                headStrColor.set(context.getResources().getColor(R.color.white));
+                break;
+        }
+    }
 }

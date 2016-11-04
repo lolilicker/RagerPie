@@ -7,4 +7,7 @@
     <color name="titleDecorationBG">#3F51B5</color>
     <color name="splitLine">#FFEAEAEA</color>
     <color name="white">#FFFFFF</color>
+    <color name="gray">#9A9A9A</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#1FA756</color>
 </resources>

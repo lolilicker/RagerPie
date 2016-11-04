@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <import type="android.databinding.ObservableField" />
+
+        <import type="android.databinding.ObservableInt" />
 
         <import type="android.databinding.ObservableList" />
 
@@ -18,12 +21,15 @@
         android:onClick="@{order.onContainerClick}"
         android:padding="15dp">
 
-        <ImageView
+        <com.ragerpie.ayi.ragerpie.view.widget.CircleTextView
             android:id="@+id/v_head_order_list"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerVertical="true"
-            android:background="@color/colorPrimary" />
+            app:bgColor="@{order.headBg}"
+            app:text="@{order.headStr}"
+            app:textColor="@{order.headStrColor}"
+            app:textSize="22sp" />
 
         <TextView
             android:id="@+id/tv_name_order_list"
