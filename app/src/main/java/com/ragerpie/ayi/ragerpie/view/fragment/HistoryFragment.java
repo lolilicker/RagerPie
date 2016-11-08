@@ -75,4 +75,9 @@ public class HistoryFragment extends BaseFragment {
     public String getTitle() {
         return "历史";
     }
+
+    @Override
+    public void refreshData() {
+        loadData();
+    }
 }

@@ -48,5 +48,7 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.iv_refresh)
     public void onClick() {
         showToast("刷新");
+        OrderFragmentPagerAdapter adapter = (OrderFragmentPagerAdapter) vpMainActivity.getAdapter();
+
     }
 }

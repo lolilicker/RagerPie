@@ -73,4 +73,9 @@ public class TodayFragment extends BaseFragment {
     public String getTitle() {
         return "今天";
     }
+
+    @Override
+    public void refreshData() {
+        loadData();
+    }
 }

@@ -48,6 +48,8 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract String getTitle();
 
+    public abstract void refreshData();
+
     protected void showToast(String message) {
         BaseActivity activity = (BaseActivity) getActivity();
         activity.showToast(message);
