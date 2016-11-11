@@ -50,6 +50,8 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract void refreshData();
 
+    public abstract void scrollFragment();
+
     protected void showToast(String message) {
         BaseActivity activity = (BaseActivity) getActivity();
         activity.showToast(message);

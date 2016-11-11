@@ -59,11 +59,12 @@ public class CircleTextView extends View {
             canvas.restore();
             Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
             int baseline = (getMeasuredHeight() - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
-            canvas.drawText(text, -textBound.width() / 2, baseline, paint);
+            canvas.drawText(text, getMeasuredWidth() / 2 - textBound.width() / 2, baseline, paint);
 //            canvas.drawText(text, 0, 0, paint);
-
+        } else {
+            canvas.restore();
         }
-        canvas.restore();
+        invalidate();
     }
 
     public void setBgColor(int bgColor) {

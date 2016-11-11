@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ragerpie.ayi.ragerpie.R;
+import com.ragerpie.ayi.ragerpie.event.FloatActionBarEvent;
 import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 import com.ragerpie.ayi.ragerpie.model.beans.ResponseWrapper;
 import com.ragerpie.ayi.ragerpie.model.impls.OrderModel;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import de.greenrobot.event.EventBus;
 import retrofit2.Response;
 
 /**
@@ -24,7 +26,7 @@ import retrofit2.Response;
 
 public class UnfinishedFragment extends BaseFragment {
     @BindView(R.id.rcv_unfinished)
-    RecyclerView rcvUnfinished;
+    RecyclerView recyclerView;
 
     private OrderListAdapter adapter;
     private List<OrderBean> dataList;
@@ -39,8 +41,19 @@ public class UnfinishedFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-        rcvUnfinished.setLayoutManager(new LinearLayoutManager(getContext()));
-        rcvUnfinished.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (UnfinishedFragment.this.recyclerView.computeVerticalScrollOffset() <= 0) {
+                    EventBus.getDefault().post(new FloatActionBarEvent(false));
+                } else {
+                    EventBus.getDefault().post(new FloatActionBarEvent(true));
+                }
+            }
+        });
     }
 
     @Override
@@ -51,6 +64,7 @@ public class UnfinishedFragment extends BaseFragment {
                 super.onNext(response);
                 if (response.isSuccessful() && response.body() != null) {
                     List<OrderBean> orderBeens = response.body().getDATA();
+                    dataList.clear();
                     dataList.addAll(orderBeens);
                     adapter.notifyDataSetChanged();
                 } else {
@@ -73,5 +87,10 @@ public class UnfinishedFragment extends BaseFragment {
     @Override
     public void refreshData() {
         loadData();
+    }
+
+    @Override
+    public void scrollFragment() {
+        recyclerView.smoothScrollToPosition(0);
     }
 }

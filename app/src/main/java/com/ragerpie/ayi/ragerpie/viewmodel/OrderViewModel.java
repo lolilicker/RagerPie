@@ -199,7 +199,6 @@ public class OrderViewModel {
             adapter.setLastExpandIndex(indexOfDataList);
         }
         adapter.notifyItemChanged(indexOfDataList);
-
     }
 
     public void onInvalidOrder(View view) {

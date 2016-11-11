@@ -40,4 +40,5 @@ dependencies {
     compile "com.facebook.fresco:fresco:0.13.0"
     compile "jp.wasabeef:fresco-processors:2.0.0"
     compile "com.github.halysongoncalves:pugnotification:1.8.1"
+    compile "de.greenrobot:eventbus:2.4.0"
 }

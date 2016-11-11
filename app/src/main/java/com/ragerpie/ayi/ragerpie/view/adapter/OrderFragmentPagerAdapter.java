@@ -35,4 +35,12 @@ public class OrderFragmentPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return fragments[position].getTitle();
     }
+
+    public void refreshFragment(int index) {
+        fragments[index].refreshData();
+    }
+
+    public void scrollFragment(int index) {
+        fragments[index].scrollFragment();
+    }
 }

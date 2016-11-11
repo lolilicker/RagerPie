@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.ragerpie.ayi.ragerpie.BR;
 import com.ragerpie.ayi.ragerpie.R;
 import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
-import com.ragerpie.ayi.ragerpie.util.LogUtils;
 import com.ragerpie.ayi.ragerpie.viewmodel.OrderViewModel;
 
 import java.util.List;
@@ -36,13 +35,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<BindingHolder> {
         int resId = viewType == TYPE_CLOSE ? R.layout.item_order_list : R.layout.item_order_detail;
         View viewDataBinding = LayoutInflater.from(parent.getContext())
                 .inflate(resId, parent, false);
-        LogUtils.d("onCreateViewHolder" + viewType);
         return new BindingHolder(viewDataBinding);
     }
 
     @Override
     public void onBindViewHolder(BindingHolder holder, final int position) {
-        LogUtils.d("onBindViewHolder " + position);
         OrderBean orderBean = dataList.get(position);
         OrderViewModel orderViewModel = new OrderViewModel(holder.itemView.getContext(), position, this, dataList);
 

@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.ragerpie.ayi.ragerpie.R;
+import com.ragerpie.ayi.ragerpie.event.FloatActionBarEvent;
 import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 import com.ragerpie.ayi.ragerpie.model.beans.ResponseWrapper;
 import com.ragerpie.ayi.ragerpie.model.impls.OrderModel;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import de.greenrobot.event.EventBus;
 import retrofit2.Response;
 
 /**
@@ -26,7 +28,7 @@ import retrofit2.Response;
 
 public class HistoryFragment extends BaseFragment {
     @BindView(R.id.rcv_history)
-    RecyclerView rcvHistory;
+    RecyclerView recyclerView;
 
     private OrderListAdapter adapter;
     private List<OrderBean> dataList;
@@ -42,9 +44,20 @@ public class HistoryFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-        rcvHistory.setLayoutManager(new LinearLayoutManager(getContext()));
-        rcvHistory.setAdapter(adapter);
-        rcvHistory.addItemDecoration(new TitleItemDecoration(dataList, getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new TitleItemDecoration(dataList, getContext()));
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (HistoryFragment.this.recyclerView.computeVerticalScrollOffset() <= 0) {
+                    EventBus.getDefault().post(new FloatActionBarEvent(false));
+                } else {
+                    EventBus.getDefault().post(new FloatActionBarEvent(true));
+                }
+            }
+        });
     }
 
     @Override
@@ -55,6 +68,7 @@ public class HistoryFragment extends BaseFragment {
                 super.onNext(response);
                 if (response.isSuccessful() && response.body() != null) {
                     List<OrderBean> orderBeens = response.body().getDATA();
+                    dataList.clear();
                     dataList.addAll(orderBeens);
                     adapter.notifyDataSetChanged();
                 } else {
@@ -79,5 +93,10 @@ public class HistoryFragment extends BaseFragment {
     @Override
     public void refreshData() {
         loadData();
+    }
+
+    @Override
+    public void scrollFragment() {
+        recyclerView.smoothScrollToPosition(0);
     }
 }
