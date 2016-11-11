@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ragerpie.ayi.ragerpie.R;
-import com.ragerpie.ayi.ragerpie.event.FloatActionBarEvent;
+import com.ragerpie.ayi.ragerpie.event.FloatActionScrollEvent;
 import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 import com.ragerpie.ayi.ragerpie.model.beans.ResponseWrapper;
 import com.ragerpie.ayi.ragerpie.model.impls.OrderModel;
@@ -48,9 +48,9 @@ public class UnfinishedFragment extends BaseFragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (UnfinishedFragment.this.recyclerView.computeVerticalScrollOffset() <= 0) {
-                    EventBus.getDefault().post(new FloatActionBarEvent(false));
+                    EventBus.getDefault().post(new FloatActionScrollEvent(false));
                 } else {
-                    EventBus.getDefault().post(new FloatActionBarEvent(true));
+                    EventBus.getDefault().post(new FloatActionScrollEvent(true));
                 }
             }
         });

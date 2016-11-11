@@ -47,11 +47,23 @@
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_calender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:visibility="gone"
+        android:src="@drawable/pugnotification_ic_placeholder"
+        app:backgroundTint="@color/colorPrimary"
+        app:rippleColor="@color/colorPrimaryDark" />
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         app:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/pugnotification_ic_launcher"
         app:rippleColor="@color/colorPrimaryDark" />
 </android.support.design.widget.CoordinatorLayout>

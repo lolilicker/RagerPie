@@ -1,14 +1,20 @@
 package com.ragerpie.ayi.ragerpie.view.activity;
 
+import android.app.DatePickerDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.DatePicker;
 
 import com.ragerpie.ayi.ragerpie.R;
-import com.ragerpie.ayi.ragerpie.event.FloatActionBarEvent;
+import com.ragerpie.ayi.ragerpie.event.DatePickedEvent;
+import com.ragerpie.ayi.ragerpie.event.FloatActionCalenderBtn;
+import com.ragerpie.ayi.ragerpie.event.FloatActionScrollEvent;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderFragmentPagerAdapter;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,6 +30,8 @@ public class MainActivity extends BaseActivity {
     ViewPager vpMainActivity;
     @BindView(R.id.fab_main)
     FloatingActionButton fabMain;
+    @BindView(R.id.fab_calender)
+    FloatingActionButton fabCalender;
 
     private int currentIndex;
 
@@ -49,6 +57,11 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 currentIndex = position;
+                if (currentIndex != 2) {
+                    fabCalender.setVisibility(View.GONE);
+                } else {
+                    fabCalender.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -80,12 +93,18 @@ public class MainActivity extends BaseActivity {
         super.onStop();
     }
 
-    public void onEventMainThread(FloatActionBarEvent event) {
+    public void onEventMainThread(FloatActionScrollEvent event) {
         fabMain.setVisibility(event.show ? View.VISIBLE : View.GONE);
     }
 
+    public void onEventMainThread(FloatActionCalenderBtn event) {
+        if (currentIndex == 2) {
+            fabCalender.setVisibility(event.show ? View.VISIBLE : View.GONE);
+        }
+    }
 
-    @OnClick({R.id.iv_refresh, R.id.fab_main})
+
+    @OnClick({R.id.iv_refresh, R.id.fab_main, R.id.fab_calender})
     public void onClick(View view) {
         OrderFragmentPagerAdapter adapter = (OrderFragmentPagerAdapter) vpMainActivity.getAdapter();
         switch (view.getId()) {
@@ -96,6 +115,24 @@ public class MainActivity extends BaseActivity {
             case R.id.fab_main:
                 adapter.scrollFragment(currentIndex);
                 break;
+            case R.id.fab_calender:
+                Calendar calendar = Calendar.getInstance();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker,
+                                                  int year,
+                                                  int monthOfYear,
+                                                  int dayOfMonth) {
+                                EventBus.getDefault().post(new DatePickedEvent(year, monthOfYear, dayOfMonth));
+                            }
+                        },
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH) + 1,
+                        calendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+                break;
         }
     }
+
 }

@@ -6,7 +6,8 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.ragerpie.ayi.ragerpie.R;
-import com.ragerpie.ayi.ragerpie.event.FloatActionBarEvent;
+import com.ragerpie.ayi.ragerpie.event.DatePickedEvent;
+import com.ragerpie.ayi.ragerpie.event.FloatActionScrollEvent;
 import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 import com.ragerpie.ayi.ragerpie.model.beans.ResponseWrapper;
 import com.ragerpie.ayi.ragerpie.model.impls.OrderModel;
@@ -52,9 +53,9 @@ public class HistoryFragment extends BaseFragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (HistoryFragment.this.recyclerView.computeVerticalScrollOffset() <= 0) {
-                    EventBus.getDefault().post(new FloatActionBarEvent(false));
+                    EventBus.getDefault().post(new FloatActionScrollEvent(false));
                 } else {
-                    EventBus.getDefault().post(new FloatActionBarEvent(true));
+                    EventBus.getDefault().post(new FloatActionScrollEvent(true));
                 }
             }
         });
@@ -81,6 +82,18 @@ public class HistoryFragment extends BaseFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().registerSticky(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Override
     protected int getLayoutResId() {
         return R.layout.fragment_history;
     }
@@ -98,5 +111,9 @@ public class HistoryFragment extends BaseFragment {
     @Override
     public void scrollFragment() {
         recyclerView.smoothScrollToPosition(0);
+    }
+
+    public void onEvent(DatePickedEvent event) {
+        showToast(event.year + "-" + event.monthOfYear + "-" + event.dayOfMonth);
     }
 }
