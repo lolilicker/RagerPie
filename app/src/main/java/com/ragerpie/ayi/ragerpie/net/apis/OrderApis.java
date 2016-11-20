@@ -15,13 +15,13 @@ import rx.Observable;
  */
 
 public interface OrderApis {
-    @GET("db")
+    @GET("order/list.json")
     Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByDate();
 
-    @GET("db")
+    @GET("order/list.json")
     Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByLastId();
 
-    @GET("db")
+    @GET("order/list.json")
     Observable<Response<ResponseWrapper<List<OrderBean>>>> getUnFinishedOrderList();
 
 }

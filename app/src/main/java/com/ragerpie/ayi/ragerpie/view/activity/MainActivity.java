@@ -28,16 +28,17 @@ public class MainActivity extends BaseActivity {
     TabLayout tlMainActivity;
     @BindView(R.id.vp_main)
     ViewPager vpMainActivity;
-    @BindView(R.id.fab_main)
-    FloatingActionButton fabMain;
+    @BindView(R.id.fab_scroll)
+    FloatingActionButton fabScroll;
     @BindView(R.id.fab_calender)
     FloatingActionButton fabCalender;
 
+    private OrderFragmentPagerAdapter pagerAdapter;
     private int currentIndex;
 
     @Override
     protected void initVariable() {
-
+        pagerAdapter = new OrderFragmentPagerAdapter(getSupportFragmentManager());
     }
 
     @Override
@@ -46,7 +47,7 @@ public class MainActivity extends BaseActivity {
         tlMainActivity.addTab(tlMainActivity.newTab());
         tlMainActivity.addTab(tlMainActivity.newTab());
         tlMainActivity.addTab(tlMainActivity.newTab());
-        vpMainActivity.setAdapter(new OrderFragmentPagerAdapter(getSupportFragmentManager()));
+        vpMainActivity.setAdapter(pagerAdapter);
         vpMainActivity.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tlMainActivity));
         vpMainActivity.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -62,6 +63,7 @@ public class MainActivity extends BaseActivity {
                 } else {
                     fabCalender.setVisibility(View.VISIBLE);
                 }
+                pagerAdapter.setFabStat(position);
             }
 
             @Override
@@ -84,7 +86,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().registerSticky(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -94,7 +96,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void onEventMainThread(FloatActionScrollEvent event) {
-        fabMain.setVisibility(event.show ? View.VISIBLE : View.GONE);
+        fabScroll.setVisibility(event.show ? View.VISIBLE : View.GONE);
     }
 
     public void onEventMainThread(FloatActionCalenderBtn event) {
@@ -104,7 +106,7 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_refresh, R.id.fab_main, R.id.fab_calender})
+    @OnClick({R.id.iv_refresh, R.id.fab_scroll, R.id.fab_calender})
     public void onClick(View view) {
         OrderFragmentPagerAdapter adapter = (OrderFragmentPagerAdapter) vpMainActivity.getAdapter();
         switch (view.getId()) {
@@ -112,7 +114,7 @@ public class MainActivity extends BaseActivity {
                 showToast("刷新");
                 adapter.refreshFragment(currentIndex);
                 break;
-            case R.id.fab_main:
+            case R.id.fab_scroll:
                 adapter.scrollFragment(currentIndex);
                 break;
             case R.id.fab_calender:

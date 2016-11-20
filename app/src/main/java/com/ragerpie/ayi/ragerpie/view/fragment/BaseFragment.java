@@ -52,6 +52,8 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract void scrollFragment();
 
+    public abstract void onFragmentHiddenChanged(boolean hidden);
+
     protected void showToast(String message) {
         BaseActivity activity = (BaseActivity) getActivity();
         activity.showToast(message);

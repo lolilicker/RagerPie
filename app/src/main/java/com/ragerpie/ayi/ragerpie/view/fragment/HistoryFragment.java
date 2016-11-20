@@ -13,6 +13,7 @@ import com.ragerpie.ayi.ragerpie.model.beans.ResponseWrapper;
 import com.ragerpie.ayi.ragerpie.model.impls.OrderModel;
 import com.ragerpie.ayi.ragerpie.model.interfaces.IOrderModel;
 import com.ragerpie.ayi.ragerpie.net.RagerSubscriber;
+import com.ragerpie.ayi.ragerpie.util.LogUtils;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
 import com.ragerpie.ayi.ragerpie.view.widget.TitleItemDecoration;
 
@@ -35,6 +36,7 @@ public class HistoryFragment extends BaseFragment {
     private List<OrderBean> dataList;
     private final Gson gson = new Gson();
     private IOrderModel orderModel;
+    private boolean enableEventBus;
 
     @Override
     protected void initVariable() {
@@ -52,6 +54,7 @@ public class HistoryFragment extends BaseFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if (!enableEventBus) return;
                 if (HistoryFragment.this.recyclerView.computeVerticalScrollOffset() <= 0) {
                     EventBus.getDefault().post(new FloatActionScrollEvent(false));
                 } else {
@@ -111,6 +114,17 @@ public class HistoryFragment extends BaseFragment {
     @Override
     public void scrollFragment() {
         recyclerView.smoothScrollToPosition(0);
+    }
+
+    @Override
+    public void onFragmentHiddenChanged(boolean hidden) {
+        enableEventBus = !hidden;
+        if (!enableEventBus) return;
+        if (HistoryFragment.this.recyclerView.computeVerticalScrollOffset() <= 0) {
+            EventBus.getDefault().post(new FloatActionScrollEvent(false));
+        } else {
+            EventBus.getDefault().post(new FloatActionScrollEvent(true));
+        }
     }
 
     public void onEvent(DatePickedEvent event) {

@@ -40,22 +40,27 @@ public class TodayFragment extends BaseFragment {
     private final Gson gson = new Gson();
     private IOrderModel orderModel;
     private Subscription timerSubscription;
+    private LinearLayoutManager layoutManager;
+
+    private boolean enableEventBus;
 
     @Override
     protected void initVariable() {
         dataList = new ArrayList<>();
         adapter = new OrderListAdapter(dataList);
         orderModel = new OrderModel();
+        layoutManager = new LinearLayoutManager(getContext());
     }
 
     @Override
     protected void initView(View view) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if (!enableEventBus) return;
                 if (TodayFragment.this.recyclerView.computeVerticalScrollOffset() <= 0) {
                     EventBus.getDefault().post(new FloatActionScrollEvent(false));
                 } else {
@@ -67,12 +72,13 @@ public class TodayFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
+        loadOrders();
         timerSubscription = Observable.interval(AppConfig.REFRESH_TIME, TimeUnit.SECONDS, Schedulers.io())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Action1<Long>() {
                     @Override
                     public void call(Long aLong) {
-                        loadOrders();
+                        loadNewOrders();
                     }
                 });
     }
@@ -92,6 +98,34 @@ public class TodayFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    private void loadNewOrders() {
+        orderModel.getOrdersByDate(new RagerSubscriber<Response<ResponseWrapper<List<OrderBean>>>>() {
+            @Override
+            public void onNext(Response<ResponseWrapper<List<OrderBean>>> response) {
+                super.onNext(response);
+                if (response.isSuccessful() && response.body() != null) {
+                    List<OrderBean> orderBeens = response.body().getDATA();
+//                    dataList.clear();
+                    dataList.addAll(0, orderBeens);
+                    adapter.notifyItemRangeChanged(0, dataList.size());
+                    if (checkItemOpened() != 0){
+                        layoutManager.scrollToPositionWithOffset(checkItemOpened(), 0);
+                    }
+//                    recyclerView.scrollToPosition(checkItemOpened());
+                } else {
+                    showToast(response.message());
+                }
+            }
+        });
+    }
+
+    private int checkItemOpened() {
+        for (OrderBean orderBean : dataList) {
+            if (orderBean.isExpand()) return dataList.indexOf(orderBean);
+        }
+        return 0;
     }
 
     @Override
@@ -118,5 +152,22 @@ public class TodayFragment extends BaseFragment {
     @Override
     public void scrollFragment() {
         recyclerView.smoothScrollToPosition(0);
+    }
+
+    @Override
+    public void onFragmentHiddenChanged(boolean hidden) {
+        if (hidden) {
+            //停止insert后发送EventBus
+            enableEventBus = false;
+        } else {
+            enableEventBus = true;
+        }
+
+        if (!enableEventBus) return;
+        if (TodayFragment.this.recyclerView.computeVerticalScrollOffset() <= 0) {
+            EventBus.getDefault().post(new FloatActionScrollEvent(false));
+        } else {
+            EventBus.getDefault().post(new FloatActionScrollEvent(true));
+        }
     }
 }

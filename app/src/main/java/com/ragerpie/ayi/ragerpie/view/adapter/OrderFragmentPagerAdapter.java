@@ -43,4 +43,10 @@ public class OrderFragmentPagerAdapter extends FragmentPagerAdapter {
     public void scrollFragment(int index) {
         fragments[index].scrollFragment();
     }
+
+    public void setFabStat(int index) {
+        for (int i = 0; i < fragments.length; i++) {
+            fragments[i].onFragmentHiddenChanged(index != i);
+        }
+    }
 }

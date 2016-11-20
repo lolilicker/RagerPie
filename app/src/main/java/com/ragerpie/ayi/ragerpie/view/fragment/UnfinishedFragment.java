@@ -31,6 +31,7 @@ public class UnfinishedFragment extends BaseFragment {
     private OrderListAdapter adapter;
     private List<OrderBean> dataList;
     private IOrderModel orderModel;
+    private boolean enableEventBus;
 
     @Override
     protected void initVariable() {
@@ -47,6 +48,7 @@ public class UnfinishedFragment extends BaseFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if (!enableEventBus) return;
                 if (UnfinishedFragment.this.recyclerView.computeVerticalScrollOffset() <= 0) {
                     EventBus.getDefault().post(new FloatActionScrollEvent(false));
                 } else {
@@ -92,5 +94,16 @@ public class UnfinishedFragment extends BaseFragment {
     @Override
     public void scrollFragment() {
         recyclerView.smoothScrollToPosition(0);
+    }
+
+    @Override
+    public void onFragmentHiddenChanged(boolean hidden) {
+        enableEventBus = !hidden;
+        if (!enableEventBus) return;
+        if (UnfinishedFragment.this.recyclerView.computeVerticalScrollOffset() <= 0) {
+            EventBus.getDefault().post(new FloatActionScrollEvent(false));
+        } else {
+            EventBus.getDefault().post(new FloatActionScrollEvent(true));
+        }
     }
 }
