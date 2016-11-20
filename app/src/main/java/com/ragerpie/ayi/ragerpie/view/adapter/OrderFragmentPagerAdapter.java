@@ -49,4 +49,9 @@ public class OrderFragmentPagerAdapter extends FragmentPagerAdapter {
             fragments[i].onFragmentHiddenChanged(index != i);
         }
     }
+
+    public void gotoTodayOrder(int orderId) {
+        TodayFragment todayFragment = (TodayFragment) fragments[1];
+        todayFragment.scrollToOrder(orderId);
+    }
 }

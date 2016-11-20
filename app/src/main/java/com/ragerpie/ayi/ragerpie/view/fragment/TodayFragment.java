@@ -1,5 +1,7 @@
 package com.ragerpie.ayi.ragerpie.view.fragment;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -7,18 +9,23 @@ import android.view.View;
 import com.google.gson.Gson;
 import com.ragerpie.ayi.ragerpie.R;
 import com.ragerpie.ayi.ragerpie.config.AppConfig;
+import com.ragerpie.ayi.ragerpie.config.Constants;
+import com.ragerpie.ayi.ragerpie.context.AppContext;
 import com.ragerpie.ayi.ragerpie.event.FloatActionScrollEvent;
 import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 import com.ragerpie.ayi.ragerpie.model.beans.ResponseWrapper;
 import com.ragerpie.ayi.ragerpie.model.impls.OrderModel;
 import com.ragerpie.ayi.ragerpie.model.interfaces.IOrderModel;
 import com.ragerpie.ayi.ragerpie.net.RagerSubscriber;
+import com.ragerpie.ayi.ragerpie.util.LogUtils;
+import com.ragerpie.ayi.ragerpie.view.activity.MainActivity;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import br.com.goncalves.pugnotification.notification.PugNotification;
 import butterknife.BindView;
 import de.greenrobot.event.EventBus;
 import retrofit2.Response;
@@ -110,8 +117,11 @@ public class TodayFragment extends BaseFragment {
 //                    dataList.clear();
                     dataList.addAll(0, orderBeens);
                     adapter.notifyItemRangeChanged(0, dataList.size());
-                    if (checkItemOpened() != 0){
+                    if (checkItemOpened() != 0) {
                         layoutManager.scrollToPositionWithOffset(checkItemOpened(), 0);
+                    }
+                    for (OrderBean orderBean : orderBeens) {
+                        showNotification(orderBean);
                     }
 //                    recyclerView.scrollToPosition(checkItemOpened());
                 } else {
@@ -168,6 +178,44 @@ public class TodayFragment extends BaseFragment {
             EventBus.getDefault().post(new FloatActionScrollEvent(false));
         } else {
             EventBus.getDefault().post(new FloatActionScrollEvent(true));
+        }
+    }
+
+    /**
+     * 弹通知
+     */
+    public void showNotification(OrderBean orderBean) {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        //该条评论的id
+        intent.putExtra(Constants.EXTRA_GOTO_TODAY_ORDER, orderBean.getId());
+        int requestCode = (int) (Math.random() * 1000);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //弹通知栏
+        PugNotification.with(AppContext.getInstance())
+                .load()
+                .title("订单状态发生变化")
+                .message(Constants.resolveStatusStr(orderBean.getStatus()))
+                .smallIcon(R.drawable.pugnotification_ic_launcher)
+                .largeIcon(R.drawable.pugnotification_ic_launcher)
+                .click(pendingIntent)
+                .autoCancel(true)
+                .identifier(requestCode)
+                .simple()
+                .build();
+    }
+
+    public void scrollToOrder(int orderId) {
+        if (dataList == null) {
+            LogUtils.e("dataList is null!!!");
+            return;
+        }
+        for (OrderBean orderBean : dataList) {
+            if (orderBean.getId() == orderId) {
+                orderBean.setExpand(true);
+                adapter.notifyDataSetChanged();
+                recyclerView.scrollToPosition(dataList.indexOf(orderBean));
+            }
         }
     }
 }

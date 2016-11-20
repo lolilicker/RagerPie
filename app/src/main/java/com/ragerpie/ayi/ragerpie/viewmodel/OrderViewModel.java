@@ -6,6 +6,7 @@ import android.databinding.ObservableInt;
 import android.view.View;
 
 import com.ragerpie.ayi.ragerpie.R;
+import com.ragerpie.ayi.ragerpie.config.Constants;
 import com.ragerpie.ayi.ragerpie.model.beans.GoodsBean;
 import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 import com.ragerpie.ayi.ragerpie.model.beans.ResponseWrapper;
@@ -222,7 +223,7 @@ public class OrderViewModel {
         //底部操作按钮可见性
         updateBottomStatePanelVisibility(stat);
         //底部订单状态
-        statusStr.set(resolveStatusStr(stat));
+        statusStr.set(Constants.resolveStatusStr(stat));
         //左侧头像
         updateHeadStr(stat);
     }
@@ -243,26 +244,6 @@ public class OrderViewModel {
                 controlLlVisibility.set(View.GONE);
                 stateTvVisibility.set(View.VISIBLE);
                 break;
-        }
-    }
-
-    /**
-     * 底部订单状态说明
-     */
-    private String resolveStatusStr(int stat) {
-        switch (stat) {
-            case OrderBean.STATE_CREATE:
-                return "新增订单";
-            case OrderBean.STATE_SENT:
-                return "已发送订单";
-            case OrderBean.STATE_DEAL:
-                return "已处理订单(完成)";
-            case OrderBean.STATE_DELETE:
-                return "删除订单";
-            case OrderBean.STATE_NOUSED:
-                return "无效订单";
-            default:
-                return "未知状态";
         }
     }
 

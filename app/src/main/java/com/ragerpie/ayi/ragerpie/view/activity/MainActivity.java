@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.ragerpie.ayi.ragerpie.R;
+import com.ragerpie.ayi.ragerpie.config.Constants;
 import com.ragerpie.ayi.ragerpie.event.DatePickedEvent;
 import com.ragerpie.ayi.ragerpie.event.FloatActionCalenderBtn;
 import com.ragerpie.ayi.ragerpie.event.FloatActionScrollEvent;
@@ -75,7 +76,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
-
+        checkOrderStatChangeNotifyClicked();
     }
 
     @Override
@@ -95,6 +96,13 @@ public class MainActivity extends BaseActivity {
         super.onStop();
     }
 
+    private void checkOrderStatChangeNotifyClicked() {
+        int orderId = getIntent().getIntExtra(Constants.EXTRA_GOTO_TODAY_ORDER, -1);
+        if (orderId != -1) {
+            pagerAdapter.gotoTodayOrder(orderId);
+        }
+    }
+
     public void onEventMainThread(FloatActionScrollEvent event) {
         fabScroll.setVisibility(event.show ? View.VISIBLE : View.GONE);
     }
@@ -104,7 +112,6 @@ public class MainActivity extends BaseActivity {
             fabCalender.setVisibility(event.show ? View.VISIBLE : View.GONE);
         }
     }
-
 
     @OnClick({R.id.iv_refresh, R.id.fab_scroll, R.id.fab_calender})
     public void onClick(View view) {
