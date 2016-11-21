@@ -35,8 +35,8 @@ public class OrderModel implements IOrderModel {
     }
 
     @Override
-    public void getOrdersByLastId(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber) {
-        orderApis.getOrderListByLastId()
+    public void getOrdersByLastId(int orderId, Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber) {
+        orderApis.getOrderListByLastId(orderId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

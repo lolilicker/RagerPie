@@ -22,6 +22,7 @@ import com.ragerpie.ayi.ragerpie.view.activity.MainActivity;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -97,6 +98,7 @@ public class TodayFragment extends BaseFragment {
                 super.onNext(response);
                 if (response.isSuccessful() && response.body() != null) {
                     List<OrderBean> orderBeens = response.body().getDATA();
+                    Collections.reverse(orderBeens);
                     dataList.clear();
                     dataList.addAll(orderBeens);
                     adapter.notifyDataSetChanged();
@@ -108,7 +110,9 @@ public class TodayFragment extends BaseFragment {
     }
 
     private void loadNewOrders() {
-        orderModel.getOrdersByDate(new RagerSubscriber<Response<ResponseWrapper<List<OrderBean>>>>() {
+        int lastOrderId = dataList.get(0).getId();
+        LogUtils.d("lastOrderId = " + lastOrderId);
+        orderModel.getOrdersByLastId(lastOrderId, new RagerSubscriber<Response<ResponseWrapper<List<OrderBean>>>>() {
             @Override
             public void onNext(Response<ResponseWrapper<List<OrderBean>>> response) {
                 super.onNext(response);

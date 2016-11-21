@@ -15,11 +15,12 @@ import rx.Subscriber;
 public interface IOrderModel {
     void getOrdersByDate(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
 
-    void getOrdersByLastId(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
+    void getOrdersByLastId(int orderId, Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
 
     void getUnFinishedOrderList(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
 
     void invalidOrder(String orderId, Subscriber<Response<ResponseWrapper>> subscriber);
+
     void finishOrder(String orderId, Subscriber<Response<ResponseWrapper>> subscriber);
 
 }

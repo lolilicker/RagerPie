@@ -7,7 +7,7 @@ import java.util.List;
 
 import retrofit2.Response;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -19,7 +19,7 @@ public interface OrderApis {
     Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByDate();
 
     @GET("order/list.json")
-    Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByLastId();
+    Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByLastId(@Query("orderId") int orderId);
 
     @GET("order/list.json")
     Observable<Response<ResponseWrapper<List<OrderBean>>>> getUnFinishedOrderList();
