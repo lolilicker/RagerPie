@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.ragerpie.ayi.ragerpie.R;
 import com.ragerpie.ayi.ragerpie.event.FloatActionScrollEvent;
+import com.ragerpie.ayi.ragerpie.event.OrderStatusChangedEvent;
 import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 import com.ragerpie.ayi.ragerpie.model.beans.ResponseWrapper;
 import com.ragerpie.ayi.ragerpie.model.impls.OrderModel;
@@ -61,7 +62,7 @@ public class UnfinishedFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
-        orderModel.getOrdersByDate(new RagerSubscriber<Response<ResponseWrapper<List<OrderBean>>>>() {
+        orderModel.getUnFinishedOrderList(new RagerSubscriber<Response<ResponseWrapper<List<OrderBean>>>>() {
             @Override
             public void onNext(Response<ResponseWrapper<List<OrderBean>>> response) {
                 super.onNext(response);
@@ -76,6 +77,24 @@ public class UnfinishedFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    public void onEventMainThread(OrderStatusChangedEvent event) {
+        if (event.getStatus() != OrderBean.STATE_SENT) {
+            loadData();
+        }
     }
 
     @Override

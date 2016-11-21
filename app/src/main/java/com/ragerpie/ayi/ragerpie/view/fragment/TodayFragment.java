@@ -196,7 +196,6 @@ public class TodayFragment extends BaseFragment {
         intent.putExtra(Constants.EXTRA_GOTO_TODAY_ORDER, orderBean.getId());
         int requestCode = (int) (Math.random() * 1000);
         PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
         //弹通知栏
         PugNotification.with(AppContext.getInstance())
                 .load()

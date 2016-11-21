@@ -45,7 +45,7 @@ public class OrderModel implements IOrderModel {
 
     @Override
     public void getUnFinishedOrderList(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber) {
-        orderApis.getUnFinishedOrderList()
+        orderApis.getOrderListByStatus(OrderBean.STATE_CREATE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

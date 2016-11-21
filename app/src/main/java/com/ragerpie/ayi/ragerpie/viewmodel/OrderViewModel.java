@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.ragerpie.ayi.ragerpie.R;
 import com.ragerpie.ayi.ragerpie.config.Constants;
+import com.ragerpie.ayi.ragerpie.event.OrderStatusChangedEvent;
 import com.ragerpie.ayi.ragerpie.model.beans.GoodsBean;
 import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 import com.ragerpie.ayi.ragerpie.model.beans.ResponseWrapper;
@@ -19,6 +20,7 @@ import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
 
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import retrofit2.Response;
 
 /**
@@ -230,6 +232,8 @@ public class OrderViewModel {
             super.onError(e);
             toast.setText("网络或服务器错误");
             toast.show();
+            EventBus.getDefault().post(new OrderStatusChangedEvent(0,
+                    0));
         }
 
         @Override
@@ -239,6 +243,9 @@ public class OrderViewModel {
             } else {
                 if (o.isSuccessful()) {
                     toast.setText(o.body().getMESSAGE());
+                    OrderBean orderBean = o.body().getDATA();
+                    EventBus.getDefault().post(new OrderStatusChangedEvent(orderBean.getId(),
+                            orderBean.getStatus()));
                 } else {
                     toast.setText("未知错误");
                 }

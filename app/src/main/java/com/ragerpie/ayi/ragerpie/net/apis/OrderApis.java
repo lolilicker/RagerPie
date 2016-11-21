@@ -23,7 +23,7 @@ public interface OrderApis {
     Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByLastId(@Query("orderId") int orderId);
 
     @GET("order/list.json")
-    Observable<Response<ResponseWrapper<List<OrderBean>>>> getUnFinishedOrderList();
+    Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByStatus(@Query("status") int status);
 
     @POST("order/update.json")
 //    Observable<Response<ResponseWrapper<OrderBean>>> updateOrderStatus(@Body HashMap<String, String> body);
