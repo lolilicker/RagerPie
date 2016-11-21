@@ -14,6 +14,7 @@ import com.ragerpie.ayi.ragerpie.net.RagerSubscriber;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,9 +66,10 @@ public class UnfinishedFragment extends BaseFragment {
             public void onNext(Response<ResponseWrapper<List<OrderBean>>> response) {
                 super.onNext(response);
                 if (response.isSuccessful() && response.body() != null) {
-                    List<OrderBean> orderBeens = response.body().getDATA();
+                    List<OrderBean> orderBeans = response.body().getDATA();
+                    Collections.reverse(orderBeans);
                     dataList.clear();
-                    dataList.addAll(orderBeens);
+                    dataList.addAll(orderBeans);
                     adapter.notifyDataSetChanged();
                 } else {
                     showToast(response.message());
@@ -100,6 +102,7 @@ public class UnfinishedFragment extends BaseFragment {
     public void onFragmentHiddenChanged(boolean hidden) {
         enableEventBus = !hidden;
         if (!enableEventBus) return;
+        loadData();
         if (UnfinishedFragment.this.recyclerView.computeVerticalScrollOffset() <= 0) {
             EventBus.getDefault().post(new FloatActionScrollEvent(false));
         } else {

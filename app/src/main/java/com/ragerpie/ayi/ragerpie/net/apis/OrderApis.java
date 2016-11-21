@@ -7,6 +7,7 @@ import java.util.List;
 
 import retrofit2.Response;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -23,5 +24,11 @@ public interface OrderApis {
 
     @GET("order/list.json")
     Observable<Response<ResponseWrapper<List<OrderBean>>>> getUnFinishedOrderList();
+
+    @POST("order/update.json")
+//    Observable<Response<ResponseWrapper<OrderBean>>> updateOrderStatus(@Body HashMap<String, String> body);
+    Observable<Response<ResponseWrapper<OrderBean>>> updateOrderStatus(@Query("id") int id,
+                                                                       @Query("status") int status);
+
 
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ragerpie.ayi.ragerpie.R;
 import com.ragerpie.ayi.ragerpie.config.Constants;
@@ -27,6 +28,7 @@ import retrofit2.Response;
 public class OrderViewModel {
     private IOrderModel orderModel;
     private Context context;
+    private Toast toast;
 
     /**
      * xml用到的字段
@@ -69,6 +71,8 @@ public class OrderViewModel {
         headStr = new ObservableField<>();
         headBg = new ObservableInt();
         headStrColor = new ObservableInt();
+
+        toast = Toast.makeText(context, "", Toast.LENGTH_SHORT);
     }
 
     public void fillData(String realName, String phone, String wechatId, String time,
@@ -203,23 +207,50 @@ public class OrderViewModel {
     }
 
     public void onInvalidOrder(View view) {
-        updateStat(OrderBean.STATE_NOUSED);
-        orderModel.invalidOrder(String.valueOf(dataList.get(indexOfDataList).getId()),
-                new RagerSubscriber<Response<ResponseWrapper>>() {
-
-                });
+        orderModel.invalidOrder(dataList.get(indexOfDataList).getId(),
+                new OrderSubscriber(OrderBean.STATE_NOUSED));
     }
 
     public void onFinishOrder(View view) {
         updateStat(OrderBean.STATE_DEAL);
-        orderModel.invalidOrder(String.valueOf(dataList.get(indexOfDataList).getId()),
-                new RagerSubscriber<Response<ResponseWrapper>>() {
+        orderModel.finishOrder(dataList.get(indexOfDataList).getId(),
+                new OrderSubscriber(OrderBean.STATE_DEAL));
+    }
 
-                });
+    private class OrderSubscriber extends RagerSubscriber<Response<ResponseWrapper<OrderBean>>> {
+
+        private int status;
+
+        public OrderSubscriber(int status) {
+            this.status = status;
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            super.onError(e);
+            toast.setText("网络或服务器错误");
+            toast.show();
+        }
+
+        @Override
+        public void onNext(Response<ResponseWrapper<OrderBean>> o) {
+            if (o.isSuccessful() && o.body().isSUCCESS()) {
+                updateStat(status);
+            } else {
+                if (o.isSuccessful()) {
+                    toast.setText(o.body().getMESSAGE());
+                } else {
+                    toast.setText("未知错误");
+                }
+                toast.show();
+            }
+        }
     }
 
     private void updateStat(int stat) {
         this.status = stat;
+        //数据
+        dataList.get(indexOfDataList).setStatus(stat);
         //底部操作按钮可见性
         updateBottomStatePanelVisibility(stat);
         //底部订单状态

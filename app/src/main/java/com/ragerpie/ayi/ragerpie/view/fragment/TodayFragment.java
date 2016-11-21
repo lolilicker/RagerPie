@@ -1,5 +1,6 @@
 package com.ragerpie.ayi.ragerpie.view.fragment;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -178,6 +179,7 @@ public class TodayFragment extends BaseFragment {
         }
 
         if (!enableEventBus) return;
+        loadData();
         if (TodayFragment.this.recyclerView.computeVerticalScrollOffset() <= 0) {
             EventBus.getDefault().post(new FloatActionScrollEvent(false));
         } else {
@@ -202,6 +204,7 @@ public class TodayFragment extends BaseFragment {
                 .message(Constants.resolveStatusStr(orderBean.getStatus()))
                 .smallIcon(R.drawable.pugnotification_ic_launcher)
                 .largeIcon(R.drawable.pugnotification_ic_launcher)
+                .flags(Notification.DEFAULT_ALL)
                 .click(pendingIntent)
                 .autoCancel(true)
                 .identifier(requestCode)

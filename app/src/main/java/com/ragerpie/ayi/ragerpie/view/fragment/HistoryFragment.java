@@ -13,11 +13,11 @@ import com.ragerpie.ayi.ragerpie.model.beans.ResponseWrapper;
 import com.ragerpie.ayi.ragerpie.model.impls.OrderModel;
 import com.ragerpie.ayi.ragerpie.model.interfaces.IOrderModel;
 import com.ragerpie.ayi.ragerpie.net.RagerSubscriber;
-import com.ragerpie.ayi.ragerpie.util.LogUtils;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
 import com.ragerpie.ayi.ragerpie.view.widget.TitleItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -72,6 +72,7 @@ public class HistoryFragment extends BaseFragment {
                 super.onNext(response);
                 if (response.isSuccessful() && response.body() != null) {
                     List<OrderBean> orderBeens = response.body().getDATA();
+                    Collections.reverse(orderBeens);
                     dataList.clear();
                     dataList.addAll(orderBeens);
                     adapter.notifyDataSetChanged();
@@ -120,6 +121,7 @@ public class HistoryFragment extends BaseFragment {
     public void onFragmentHiddenChanged(boolean hidden) {
         enableEventBus = !hidden;
         if (!enableEventBus) return;
+        loadData();
         if (HistoryFragment.this.recyclerView.computeVerticalScrollOffset() <= 0) {
             EventBus.getDefault().post(new FloatActionScrollEvent(false));
         } else {

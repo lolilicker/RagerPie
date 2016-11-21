@@ -19,8 +19,8 @@ public interface IOrderModel {
 
     void getUnFinishedOrderList(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
 
-    void invalidOrder(String orderId, Subscriber<Response<ResponseWrapper>> subscriber);
+    void invalidOrder(int orderId, Subscriber<Response<ResponseWrapper<OrderBean>>> subscriber);
 
-    void finishOrder(String orderId, Subscriber<Response<ResponseWrapper>> subscriber);
+    void finishOrder(int orderId, Subscriber<Response<ResponseWrapper<OrderBean>>> subscriber);
 
 }

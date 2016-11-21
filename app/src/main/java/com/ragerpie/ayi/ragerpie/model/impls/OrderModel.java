@@ -6,6 +6,7 @@ import com.ragerpie.ayi.ragerpie.model.interfaces.IOrderModel;
 import com.ragerpie.ayi.ragerpie.net.RagerRetrofit;
 import com.ragerpie.ayi.ragerpie.net.apis.OrderApis;
 
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Response;
@@ -51,12 +52,29 @@ public class OrderModel implements IOrderModel {
     }
 
     @Override
-    public void invalidOrder(String orderId, Subscriber<Response<ResponseWrapper>> subscriber) {
-
+    public void invalidOrder(int orderId, Subscriber<Response<ResponseWrapper<OrderBean>>> subscriber) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(orderId));
+        params.put("status", String.valueOf(OrderBean.STATE_NOUSED));
+        orderApis.updateOrderStatus(orderId, OrderBean.STATE_NOUSED)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
     }
 
     @Override
-    public void finishOrder(String orderId, Subscriber<Response<ResponseWrapper>> subscriber) {
+    public void finishOrder(int orderId, Subscriber<Response<ResponseWrapper<OrderBean>>> subscriber) {
+//        orderApis.updateOrderStatus(new OrderStateBody(orderId, OrderBean.STATE_DEAL))
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(subscriber);
 
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(orderId));
+        params.put("status", String.valueOf(OrderBean.STATE_DEAL));
+        orderApis.updateOrderStatus(orderId, OrderBean.STATE_DEAL)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
     }
 }
