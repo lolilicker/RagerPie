@@ -93,15 +93,15 @@ public class TodayFragment extends BaseFragment {
     }
 
     private void loadOrders() {
-        orderModel.getOrdersByDate(new RagerSubscriber<Response<ResponseWrapper<List<OrderBean>>>>() {
+        orderModel.getTodayOrder(new RagerSubscriber<Response<ResponseWrapper<List<OrderBean>>>>() {
             @Override
             public void onNext(Response<ResponseWrapper<List<OrderBean>>> response) {
                 super.onNext(response);
                 if (response.isSuccessful() && response.body() != null) {
-                    List<OrderBean> orderBeens = response.body().getDATA();
-                    Collections.reverse(orderBeens);
+                    List<OrderBean> orderBeans = response.body().getDATA();
+                    Collections.reverse(orderBeans);
                     dataList.clear();
-                    dataList.addAll(orderBeens);
+                    dataList.addAll(orderBeans);
                     adapter.notifyDataSetChanged();
                 } else {
                     showToast(response.message());

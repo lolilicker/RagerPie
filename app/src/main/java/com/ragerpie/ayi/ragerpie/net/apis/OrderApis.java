@@ -6,7 +6,6 @@ import com.ragerpie.ayi.ragerpie.model.beans.ResponseWrapper;
 import java.util.List;
 
 import retrofit2.Response;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -16,13 +15,14 @@ import rx.Observable;
  */
 
 public interface OrderApis {
-    @GET("order/list.json")
-    Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByDate();
+    @POST("order/list.json")
+    Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByDate(@Query("starttime") String startTime,
+                                                                              @Query("endtime") String endTime);
 
-    @GET("order/list.json")
+    @POST("order/list.json")
     Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByLastId(@Query("orderId") int orderId);
 
-    @GET("order/list.json")
+    @POST("order/list.json")
     Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByStatus(@Query("status") int status);
 
     @POST("order/update.json")

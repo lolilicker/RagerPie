@@ -13,7 +13,10 @@ import rx.Subscriber;
  */
 
 public interface IOrderModel {
-    void getOrdersByDate(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
+    void getTodayOrder(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
+    void getTodayAndYesterdayOrder(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
+
+    void getOrdersByDate(String startDate, String endDate, Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
 
     void getOrdersByLastId(int orderId, Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber);
 

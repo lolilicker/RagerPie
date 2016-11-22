@@ -17,6 +17,7 @@ import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
 import com.ragerpie.ayi.ragerpie.view.widget.TitleItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -66,23 +67,24 @@ public class HistoryFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
-        orderModel.getOrdersByDate(new RagerSubscriber<Response<ResponseWrapper<List<OrderBean>>>>() {
-            @Override
-            public void onNext(Response<ResponseWrapper<List<OrderBean>>> response) {
-                super.onNext(response);
-                if (response.isSuccessful() && response.body() != null) {
-                    List<OrderBean> orderBeens = response.body().getDATA();
-                    Collections.reverse(orderBeens);
-                    dataList.clear();
-                    dataList.addAll(orderBeens);
-                    adapter.notifyDataSetChanged();
-                } else {
-                    showToast(response.message());
-                }
+        orderModel.getTodayAndYesterdayOrder(new HistorySubscriber());
+    }
+
+
+    private class HistorySubscriber extends RagerSubscriber<Response<ResponseWrapper<List<OrderBean>>>> {
+        @Override
+        public void onNext(Response<ResponseWrapper<List<OrderBean>>> response) {
+            super.onNext(response);
+            if (response.isSuccessful() && response.body() != null) {
+                List<OrderBean> orderBeans = response.body().getDATA();
+                Collections.reverse(orderBeans);
+                dataList.clear();
+                dataList.addAll(orderBeans);
+                adapter.notifyDataSetChanged();
+            } else {
+                showToast(response.message());
             }
-        });
-
-
+        }
     }
 
     @Override
@@ -130,6 +132,13 @@ public class HistoryFragment extends BaseFragment {
     }
 
     public void onEvent(DatePickedEvent event) {
-        showToast(event.year + "-" + event.monthOfYear + "-" + event.dayOfMonth);
+        Calendar calendar = Calendar.getInstance();
+        String selectDay = String.valueOf(calendar.get(Calendar.YEAR)) +
+                String.valueOf(calendar.get(Calendar.MONTH) + 1) +
+                String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        String theDayAfterSelectDay = String.valueOf(calendar.get(Calendar.YEAR)) +
+                String.valueOf(calendar.get(Calendar.MONTH) + 1) +
+                String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) + 1);
+        orderModel.getOrdersByDate(selectDay, theDayAfterSelectDay, new HistorySubscriber());
     }
 }

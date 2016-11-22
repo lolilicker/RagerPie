@@ -6,6 +6,7 @@ import com.ragerpie.ayi.ragerpie.model.interfaces.IOrderModel;
 import com.ragerpie.ayi.ragerpie.net.RagerRetrofit;
 import com.ragerpie.ayi.ragerpie.net.apis.OrderApis;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,8 +29,35 @@ public class OrderModel implements IOrderModel {
     }
 
     @Override
-    public void getOrdersByDate(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber) {
-        orderApis.getOrderListByDate()
+    public void getTodayOrder(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber) {
+        Calendar calendar = Calendar.getInstance();
+        String todayDate = String.valueOf(calendar.get(Calendar.YEAR)) +
+                String.valueOf(calendar.get(Calendar.MONTH) + 1) +
+                String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        orderApis.getOrderListByDate(todayDate, todayDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    @Override
+    public void getTodayAndYesterdayOrder(Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber) {
+        Calendar calendar = Calendar.getInstance();
+        String yesterdayDate = String.valueOf(calendar.get(Calendar.YEAR)) +
+                String.valueOf(calendar.get(Calendar.MONTH) + 1) +
+                String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) - 1);
+        String todayDate = String.valueOf(calendar.get(Calendar.YEAR)) +
+                String.valueOf(calendar.get(Calendar.MONTH) + 1) +
+                String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        orderApis.getOrderListByDate(yesterdayDate, todayDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    @Override
+    public void getOrdersByDate(String startDate, String endDate, Subscriber<Response<ResponseWrapper<List<OrderBean>>>> subscriber) {
+        orderApis.getOrderListByDate(startDate, endDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
