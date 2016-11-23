@@ -36,15 +36,18 @@ public class MainActivity extends BaseActivity {
 
     private OrderFragmentPagerAdapter pagerAdapter;
     private int currentIndex;
+    private Calendar calendar;
 
     @Override
     protected void initVariable() {
         pagerAdapter = new OrderFragmentPagerAdapter(getSupportFragmentManager());
+        calendar = Calendar.getInstance();
     }
 
     @Override
     protected void initView() {
-        toolbar.setTitle("xxx");
+        toolbar.setTitle("RagerPie");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         tlMainActivity.addTab(tlMainActivity.newTab());
         tlMainActivity.addTab(tlMainActivity.newTab());
         tlMainActivity.addTab(tlMainActivity.newTab());
@@ -125,7 +128,6 @@ public class MainActivity extends BaseActivity {
                 adapter.scrollFragment(currentIndex);
                 break;
             case R.id.fab_calender:
-                Calendar calendar = Calendar.getInstance();
                 DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
@@ -134,6 +136,7 @@ public class MainActivity extends BaseActivity {
                                                   int monthOfYear,
                                                   int dayOfMonth) {
                                 EventBus.getDefault().post(new DatePickedEvent(year, monthOfYear, dayOfMonth));
+                                calendar.set(year, monthOfYear - 1, dayOfMonth);
                             }
                         },
                         calendar.get(Calendar.YEAR),

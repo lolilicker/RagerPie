@@ -16,8 +16,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
-            android:title="@string/app_name"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            android:titleTextColor="@color/white"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:subtitleTextColor="@color/white"
+            app:title="@string/app_name" />
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
@@ -52,8 +54,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:visibility="gone"
         android:src="@drawable/pugnotification_ic_placeholder"
+        android:visibility="gone"
         app:backgroundTint="@color/colorPrimary"
         app:rippleColor="@color/colorPrimaryDark" />
 
@@ -63,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        app:backgroundTint="@color/colorPrimary"
         android:src="@drawable/pugnotification_ic_launcher"
+        app:backgroundTint="@color/colorPrimary"
         app:rippleColor="@color/colorPrimaryDark" />
 </android.support.design.widget.CoordinatorLayout>
