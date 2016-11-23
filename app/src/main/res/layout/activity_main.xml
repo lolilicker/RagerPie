@@ -17,7 +17,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             android:titleTextColor="@color/white"
-            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_scrollFlags="scroll"
             app:subtitleTextColor="@color/white"
             app:title="@string/app_name" />
     </android.support.design.widget.AppBarLayout>
@@ -45,7 +45,9 @@
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:background="@color/colorPrimaryDark" />
+            android:background="@color/colorPrimary"
+            android:scaleType="center"
+            android:src="@mipmap/ic_fa_rotate_left" />
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -54,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:src="@drawable/pugnotification_ic_placeholder"
+        android:src="@mipmap/ic_fa_calendar"
         android:visibility="gone"
         app:backgroundTint="@color/colorPrimary"
         app:rippleColor="@color/colorPrimaryDark" />
@@ -65,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:src="@drawable/pugnotification_ic_launcher"
+        android:src="@mipmap/ic_fa_angle_double_up"
         app:backgroundTint="@color/colorPrimary"
         app:rippleColor="@color/colorPrimaryDark" />
 </android.support.design.widget.CoordinatorLayout>
