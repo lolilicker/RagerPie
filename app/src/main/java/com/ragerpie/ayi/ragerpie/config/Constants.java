@@ -9,6 +9,9 @@ import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
 public class Constants {
     public static final String RETROFIT_CACHE_FILE = "cache";
 
+    public static final String START_TIME_PREFIX = "000000";
+    public static final String END_TIME_PREFIX = "235959";
+
     /**
      * 底部订单状态说明
      */

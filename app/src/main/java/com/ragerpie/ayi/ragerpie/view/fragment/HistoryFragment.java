@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.ragerpie.ayi.ragerpie.R;
+import com.ragerpie.ayi.ragerpie.config.Constants;
 import com.ragerpie.ayi.ragerpie.event.DatePickedEvent;
 import com.ragerpie.ayi.ragerpie.event.FloatActionScrollEvent;
 import com.ragerpie.ayi.ragerpie.model.beans.OrderBean;
@@ -132,13 +133,12 @@ public class HistoryFragment extends BaseFragment {
     }
 
     public void onEvent(DatePickedEvent event) {
-        Calendar calendar = Calendar.getInstance();
-        String selectDay = String.valueOf(calendar.get(Calendar.YEAR)) +
-                String.valueOf(calendar.get(Calendar.MONTH) + 1) +
-                String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-        String theDayAfterSelectDay = String.valueOf(calendar.get(Calendar.YEAR)) +
-                String.valueOf(calendar.get(Calendar.MONTH) + 1) +
-                String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) + 1);
+        String selectDay = String.valueOf(event.year) +
+                String.valueOf(event.monthOfYear) +
+                String.valueOf(event.dayOfMonth) + Constants.START_TIME_PREFIX;
+        String theDayAfterSelectDay = String.valueOf(event.year) +
+                String.valueOf(event.monthOfYear) +
+                String.valueOf(event.dayOfMonth) + Constants.END_TIME_PREFIX;
         orderModel.getOrdersByDate(selectDay, theDayAfterSelectDay, new HistorySubscriber());
     }
 }

@@ -16,8 +16,8 @@ import rx.Observable;
 
 public interface OrderApis {
     @POST("order/list.json")
-    Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByDate(@Query("starttime") String startTime,
-                                                                              @Query("endtime") String endTime);
+    Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByDate(@Query("startTime") String startTime,
+                                                                              @Query("endTime") String endTime);
 
     @POST("order/list.json")
     Observable<Response<ResponseWrapper<List<OrderBean>>>> getOrderListByLastId(@Query("orderId") int orderId);

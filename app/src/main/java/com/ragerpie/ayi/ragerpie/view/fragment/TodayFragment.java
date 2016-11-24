@@ -111,6 +111,9 @@ public class TodayFragment extends BaseFragment {
     }
 
     private void loadNewOrders() {
+        if (dataList.size() == 0) {
+            return;
+        }
         int lastOrderId = dataList.get(0).getId();
         LogUtils.d("lastOrderId = " + lastOrderId);
         orderModel.getOrdersByLastId(lastOrderId, new RagerSubscriber<Response<ResponseWrapper<List<OrderBean>>>>() {

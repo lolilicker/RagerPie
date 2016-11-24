@@ -13,6 +13,7 @@ import com.ragerpie.ayi.ragerpie.config.Constants;
 import com.ragerpie.ayi.ragerpie.event.DatePickedEvent;
 import com.ragerpie.ayi.ragerpie.event.FloatActionCalenderBtn;
 import com.ragerpie.ayi.ragerpie.event.FloatActionScrollEvent;
+import com.ragerpie.ayi.ragerpie.util.LogUtils;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderFragmentPagerAdapter;
 
 import java.util.Calendar;
@@ -135,6 +136,7 @@ public class MainActivity extends BaseActivity {
                                                   int year,
                                                   int monthOfYear,
                                                   int dayOfMonth) {
+                                LogUtils.d("datePicked:" + year + monthOfYear + dayOfMonth);
                                 EventBus.getDefault().post(new DatePickedEvent(year, monthOfYear, dayOfMonth));
                                 calendar.set(year, monthOfYear - 1, dayOfMonth);
                             }
