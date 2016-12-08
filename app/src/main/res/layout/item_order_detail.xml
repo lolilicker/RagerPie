@@ -121,6 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_below="@+id/ll_detail"
+            android:layout_marginTop="10dp"
             android:background="@color/splitLine" />
 
         <!--订单状态-->
@@ -139,8 +140,10 @@
         <!--订单处理按钮-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             android:layout_below="@+id/ll_detail"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:visibility="@{order.controlLlVisibility}">
@@ -153,7 +156,7 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="2dp"
                 android:layout_weight="2"
                 android:onClick="@{order.onInvalidOrder}"
                 android:text="无效订单" />
@@ -161,10 +164,17 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="2dp"
                 android:layout_weight="2"
                 android:onClick="@{order.onFinishOrder}"
                 android:text="处理完成" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/ll_detail"
+            android:background="@color/splitLine" />
     </RelativeLayout>
 </layout>

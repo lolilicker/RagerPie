@@ -78,7 +78,7 @@ public class TodayFragment extends BaseFragment {
                 }
             }
         });
-        recyclerView.addItemDecoration(new DividerItemDecorator(getContext()));
+//        recyclerView.addItemDecoration(new DividerItemDecorator(getContext()));
     }
 
     @Override

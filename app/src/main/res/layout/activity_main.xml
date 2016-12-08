@@ -68,6 +68,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:src="@mipmap/ic_fa_angle_double_up"
+        android:visibility="gone"
         app:backgroundTint="@color/colorPrimary"
         app:rippleColor="@color/colorPrimaryDark" />
 </android.support.design.widget.CoordinatorLayout>

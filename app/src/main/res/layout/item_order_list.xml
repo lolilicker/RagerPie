@@ -18,14 +18,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:onClick="@{order.onContainerClick}"
-        android:padding="15dp">
+        android:onClick="@{order.onContainerClick}">
 
         <com.ragerpie.ayi.ragerpie.view.widget.CircleTextView
             android:id="@+id/v_head_order_list"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
             app:bgColor="@{order.headBg}"
             app:text="@{order.headStr}"
             app:textColor="@{order.headStrColor}"
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_toLeftOf="@+id/tv_time_order_list"
             android:layout_toRightOf="@id/v_head_order_list"
             android:ellipsize="end"
@@ -51,6 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
             android:text="@{order.time}" />
 
         <TextView
@@ -65,5 +67,12 @@
             android:maxLines="1"
             android:text="@{order.message}"
             android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/ll_detail"
+            android:background="@color/splitLine" />
     </RelativeLayout>
 </layout>

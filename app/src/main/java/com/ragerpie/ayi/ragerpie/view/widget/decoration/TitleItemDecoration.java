@@ -53,7 +53,7 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
             if (position > -1) {
                 if (position == 0
                         || !orderBean.getDateStr().equals(dataList.get(position - 1).getDateStr())) {
-                    LogUtils.d("onDraw " + position);
+//                    LogUtils.d("onDraw " + position);
                     paint.setColor(COLOR_TITLE_BG);
                     c.drawRect(left,
                             child.getTop() - topMargin - TITLE_HEIGHT,

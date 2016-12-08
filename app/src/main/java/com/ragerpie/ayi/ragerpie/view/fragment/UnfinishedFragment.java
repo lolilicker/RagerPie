@@ -41,6 +41,7 @@ public class UnfinishedFragment extends BaseFragment {
         dataList = new ArrayList<>();
         adapter = new OrderListAdapter(dataList);
         orderModel = new OrderModel();
+        enableEventBus = true;
     }
 
     @Override
@@ -59,7 +60,7 @@ public class UnfinishedFragment extends BaseFragment {
                 }
             }
         });
-        recyclerView.addItemDecoration(new DividerItemDecorator(getContext()));
+//        recyclerView.addItemDecoration(new DividerItemDecorator(getContext()));
     }
 
     @Override
