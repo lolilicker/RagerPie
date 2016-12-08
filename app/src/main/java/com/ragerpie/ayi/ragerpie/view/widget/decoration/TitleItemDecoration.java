@@ -1,4 +1,4 @@
-package com.ragerpie.ayi.ragerpie.view.widget;
+package com.ragerpie.ayi.ragerpie.view.widget.decoration;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -21,6 +21,7 @@ import com.ragerpie.ayi.ragerpie.net.RagerSubscriber;
 import com.ragerpie.ayi.ragerpie.util.LogUtils;
 import com.ragerpie.ayi.ragerpie.view.activity.MainActivity;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
+import com.ragerpie.ayi.ragerpie.view.widget.decoration.DividerItemDecorator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,6 +78,7 @@ public class TodayFragment extends BaseFragment {
                 }
             }
         });
+        recyclerView.addItemDecoration(new DividerItemDecorator(getContext()));
     }
 
     @Override

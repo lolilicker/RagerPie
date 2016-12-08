@@ -13,6 +13,7 @@ import com.ragerpie.ayi.ragerpie.model.impls.OrderModel;
 import com.ragerpie.ayi.ragerpie.model.interfaces.IOrderModel;
 import com.ragerpie.ayi.ragerpie.net.RagerSubscriber;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
+import com.ragerpie.ayi.ragerpie.view.widget.decoration.DividerItemDecorator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,6 +59,7 @@ public class UnfinishedFragment extends BaseFragment {
                 }
             }
         });
+        recyclerView.addItemDecoration(new DividerItemDecorator(getContext()));
     }
 
     @Override

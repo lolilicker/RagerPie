@@ -15,10 +15,10 @@ import com.ragerpie.ayi.ragerpie.model.impls.OrderModel;
 import com.ragerpie.ayi.ragerpie.model.interfaces.IOrderModel;
 import com.ragerpie.ayi.ragerpie.net.RagerSubscriber;
 import com.ragerpie.ayi.ragerpie.view.adapter.OrderListAdapter;
-import com.ragerpie.ayi.ragerpie.view.widget.TitleItemDecoration;
+import com.ragerpie.ayi.ragerpie.view.widget.decoration.DividerItemDecorator;
+import com.ragerpie.ayi.ragerpie.view.widget.decoration.TitleItemDecoration;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -64,6 +64,7 @@ public class HistoryFragment extends BaseFragment {
                 }
             }
         });
+        recyclerView.addItemDecoration(new DividerItemDecorator(getContext()));
     }
 
     @Override
@@ -133,12 +134,15 @@ public class HistoryFragment extends BaseFragment {
     }
 
     public void onEvent(DatePickedEvent event) {
+        String dayOfMonty = event.dayOfMonth < 10
+                ? "0" + String.valueOf(event.dayOfMonth)
+                : String.valueOf(event.dayOfMonth);
         String selectDay = String.valueOf(event.year) +
                 String.valueOf(event.monthOfYear) +
-                String.valueOf(event.dayOfMonth) + Constants.START_TIME_PREFIX;
+                dayOfMonty + Constants.START_TIME_PREFIX;
         String theDayAfterSelectDay = String.valueOf(event.year) +
                 String.valueOf(event.monthOfYear) +
-                String.valueOf(event.dayOfMonth) + Constants.END_TIME_PREFIX;
+                dayOfMonty + Constants.END_TIME_PREFIX;
         orderModel.getOrdersByDate(selectDay, theDayAfterSelectDay, new HistorySubscriber());
     }
 }

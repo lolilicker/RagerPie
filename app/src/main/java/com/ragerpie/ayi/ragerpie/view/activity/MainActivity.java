@@ -136,13 +136,14 @@ public class MainActivity extends BaseActivity {
                                                   int year,
                                                   int monthOfYear,
                                                   int dayOfMonth) {
+                                monthOfYear += 1;
                                 LogUtils.d("datePicked:" + year + monthOfYear + dayOfMonth);
                                 EventBus.getDefault().post(new DatePickedEvent(year, monthOfYear, dayOfMonth));
                                 calendar.set(year, monthOfYear - 1, dayOfMonth);
                             }
                         },
                         calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH) + 1,
+                        calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
                 break;

@@ -196,7 +196,7 @@ public class OrderViewModel {
             adapter.setLastExpandIndex(-1);
         } else {
             //关闭上一个打开的
-            if (lastExpandIndex != -1) {
+            if (lastExpandIndex != -1 && lastExpandIndex < dataList.size()) {
                 dataList.get(lastExpandIndex).setExpand(false);
                 adapter.notifyItemChanged(lastExpandIndex);
                 LogUtils.d("关闭上一个打开的:" + lastExpandIndex);
