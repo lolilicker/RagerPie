@@ -91,7 +91,7 @@ public class OrderViewModel {
         this.goodList = goodList;
         this.totalPrice = totalPrice;
         this.status = status;
-        message = "￥" + totalPrice + " | " + remarks;
+        message = "￥" + totalPrice + " | " + sendMessage;
         updateStat(status);
     }
 
@@ -294,7 +294,7 @@ public class OrderViewModel {
             case OrderBean.STATE_SENT:
                 String nameChar = (realName == null || realName.length() == 0)
                         ? "?"
-                        : String.valueOf(realName.charAt(realName.length() - 1));
+                        : String.valueOf(realName.charAt(0));
                 headStr.set(nameChar);
                 headBg.set(context.getResources().getColor(R.color.colorPrimary));
                 headStrColor.set(context.getResources().getColor(R.color.white));

@@ -1,5 +1,7 @@
 package com.ragerpie.ayi.ragerpie.viewmodel;
 
+import com.ragerpie.ayi.ragerpie.util.LogUtils;
+
 /**
  * Created by WangBo on 2016/11/2.
  */
@@ -18,7 +20,9 @@ public class GoodViewModel {
     }
 
     public String getGoodsName() {
-        return goodsName;
+        LogUtils.d("goodsSize = " + goodsSize);
+        String size = goodsSize == null || goodsSize.equals("undefined") ? "" : " " + goodsSize;
+        return goodsName + size;
     }
 
     public void setGoodsName(String goodsName) {
@@ -54,6 +58,6 @@ public class GoodViewModel {
     }
 
     public String getGoodsCountStr() {
-        return goodsNumber + " * " + goodsSize;
+        return goodsNumber + " * ";
     }
 }

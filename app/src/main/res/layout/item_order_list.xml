@@ -73,6 +73,7 @@
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/ll_detail"
-            android:background="@color/splitLine" />
+            android:background="@color/splitLine"
+            android:layout_marginLeft="80dp"/>
     </RelativeLayout>
 </layout>

@@ -34,9 +34,9 @@ public class OrderGoodsAdapter extends RecyclerView.Adapter<BindingHolder> {
     public void onBindViewHolder(BindingHolder holder, int position) {
         GoodsBean goodsBean = dataList.get(position);
         GoodViewModel goodViewModel = new GoodViewModel(goodsBean.getGoodsName(),
-                goodsBean.getGoodsSize(),
+                goodsBean.getGoods().getGoodsSize(),
                 goodsBean.getGoodsNumber(),
-                goodsBean.getGoodsPrice());
+                goodsBean.getGoods().getGoodsPrice());
         holder.getBinding().setVariable(BR.goods, goodViewModel);
         holder.getBinding().executePendingBindings();
     }
