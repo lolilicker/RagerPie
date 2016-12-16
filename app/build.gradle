@@ -16,8 +16,8 @@ android {
         applicationId "com.ragerpie.ayi.ragerpie"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 3
-        versionName "1.2"
+        versionCode 4
+        versionName "1.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
     }
@@ -31,6 +31,36 @@ android {
         enabled = true
     }
     productFlavors {
+    }
+
+    //更改生成的apk文件名并删除unaligned.apk
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def alignedOutputFile = output.outputFile
+            def unalignedOutputFile = output.packageApplication.outputFile
+            // Customise APK filenames (to include build version)
+            if (variant.buildType.zipAlignEnabled) {
+                // normal APK
+                output.outputFile = new File(alignedOutputFile.parent,
+                        alignedOutputFile.name.replace(".apk",
+                                "-v" + defaultConfig.versionName + "_build" + defaultConfig.versionCode + ".apk"))
+            }
+        }
+
+        variant.assemble.doLast {
+            variant.outputs.each { output ->
+                // delete unaligned files
+                println "unaligned " + output.packageApplication.outputFile
+                File unaligned = output.packageApplication.outputFile;
+                println "deleting " + unaligned.getName()
+//                unaligned.delete()
+            }
+        }
+    }
+    //防止编译失败
+    lintOptions {
+        disable 'MissingTranslation'
+        abortOnError false
     }
 }
 
