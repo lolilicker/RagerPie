@@ -295,6 +295,10 @@ public class OrderViewModel {
                 String nameChar = (realName == null || realName.length() == 0)
                         ? "?"
                         : String.valueOf(realName.charAt(0));
+                /**
+                 * 20161221冬至，狗哔改的需求，先不显示东西了
+                 */
+                nameChar = "";
                 headStr.set(nameChar);
                 headBg.set(context.getResources().getColor(R.color.colorPrimary));
                 headStrColor.set(context.getResources().getColor(R.color.white));
