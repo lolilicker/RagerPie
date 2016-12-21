@@ -5,5 +5,5 @@ package com.ragerpie.ayi.ragerpie.config;
  */
 
 public interface AppConfig {
-    int REFRESH_TIME = 30;
+    int REFRESH_TIME = 5;
 }
